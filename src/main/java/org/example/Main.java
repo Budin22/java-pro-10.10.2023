@@ -9,5 +9,8 @@ public class Main {
         car.start();
 
         Employee employee = new Employee("Bobik Bob", "dog", "bobikdog@bob.gav", "+385255555", 15);
+
+        SameName sameName1 = new SameName("first");
+        org.example.testClass.SameName sameName2 = new org.example.testClass.SameName("second");
     }
 }
