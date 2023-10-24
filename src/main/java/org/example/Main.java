@@ -1,19 +1,34 @@
 package org.example;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+
+import org.example.animal.Animal;
+import org.example.animal.Cat;
+import org.example.animal.Dog;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        Dog bobbik1 = new Dog("Bobik1");
+        Dog bobbik2 = new Dog("Bobik2");
+        Dog bobbik3 = new Dog("Bobik3");
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
-        }
+        Cat shurm1 = new Cat("Shurm1");
+        Cat shurm2 = new Cat("Shurm2");
+
+
+        System.out.printf("Dogs created : %d times \n", Dog.getDogCount());
+        System.out.printf("Cats created : %d times \n", Cat.getCatCount());
+        System.out.printf("Animals created : %d times \n", Animal.getAnimalCount());
+
+        shurm1.run(50);
+        shurm1.swim(12);
+        shurm2.run(225);
+
+        bobbik1.run(450);
+        bobbik2.run(501);
+
+        bobbik1.swim(25);
+        bobbik2.swim(8);
+
     }
 }
