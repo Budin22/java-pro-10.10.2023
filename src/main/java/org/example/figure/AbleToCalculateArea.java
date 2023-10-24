@@ -1,5 +1,5 @@
 package org.example.figure;
 
-public interface AbleToCalculatingArea {
-    double getSquare();
+public interface AbleToCalculateArea {
+    double getArea();
 }

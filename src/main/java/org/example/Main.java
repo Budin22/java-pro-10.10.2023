@@ -1,34 +1,44 @@
 package org.example;
 
+import org.example.competition.Competition;
+import org.example.competition.athlete.Athlete;
+import org.example.competition.obstacle.Obstacle;
+import org.example.competition.obstacle.Track;
+import org.example.competition.obstacle.Wall;
+import org.example.figure.Circle;
+import org.example.figure.Rectangle;
+import org.example.figure.AbleToCalculateArea;
+import org.example.figure.Triangle;
 
-import org.example.animal.Animal;
-import org.example.animal.Cat;
-import org.example.animal.Dog;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        Dog bobbik1 = new Dog("Bobik1");
-        Dog bobbik2 = new Dog("Bobik2");
-        Dog bobbik3 = new Dog("Bobik3");
+        List<AbleToCalculateArea> figureList = List.of(new Triangle(3.0,4.0,5.0), new Circle(1), new Rectangle(1.0, 1.0));
 
-        Cat shurm1 = new Cat("Shurm1");
-        Cat shurm2 = new Cat("Shurm2");
+        double totalArea = 0;
+        for (AbleToCalculateArea figure : figureList){
+            totalArea = totalArea + figure.getArea();
+        }
+        System.out.println("Total area equal: " + totalArea);
 
 
-        System.out.printf("Dogs created : %d times \n", Dog.getDogCount());
-        System.out.printf("Cats created : %d times \n", Cat.getCatCount());
-        System.out.printf("Animals created : %d times \n", Animal.getAnimalCount());
+        Athlete human = new Athlete("Human", 120, 2);
+        Athlete cat = new Athlete("Cat", 250, 1);
+        Athlete robot = new Athlete("Robot", 2, 0);
+        Athlete superman = new Athlete("Superman", 1000, 1000);
+        List<Athlete> athleteList = List.of(human, cat, robot, superman);
 
-        shurm1.run(50);
-        shurm1.swim(12);
-        shurm2.run(225);
+        Track track1 = new Track(50);
+        Track track2 = new Track(150);
+        Wall wall1 = new Wall(1);
+        Wall wall2 = new Wall(2);
+        List<Obstacle> obstacleList = List.of(track1, wall1, wall2, track2);
 
-        bobbik1.run(450);
-        bobbik2.run(501);
-
-        bobbik1.swim(25);
-        bobbik2.swim(8);
+        Competition completion = new Competition(obstacleList, athleteList);
+        completion.startCompetition();
 
     }
+
 }

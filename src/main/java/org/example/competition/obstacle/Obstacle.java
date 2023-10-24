@@ -1,5 +1,7 @@
-package org.example.participent;
+package org.example.competition.obstacle;
+
+import org.example.competition.athlete.Athlete;
 
 public interface Obstacle {
-    void overcome(Athlete athlete);
+    boolean overcome(Athlete athlete);
 }
