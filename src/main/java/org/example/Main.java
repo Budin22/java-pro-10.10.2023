@@ -9,10 +9,22 @@ public class Main {
         compareNumbers();
         System.out.println("(5+9) in diapason from 10 to 20: " + checkSumInDiapason(5,9));
 
-        checkSign(-1);
+        printNumberSign(-1);
+        System.out.println("5 is positive: " + checkIsPositiveNumber(5));
+        printStringRepeatedly("Good job!!!", 5);
+
     }
 
-    private static void checkSign(int a){
+    private static void printStringRepeatedly(String str, int repeat){
+        for (int i = 0; i < repeat; i++) {
+            System.out.println(str);
+        }
+    }
+    private static boolean checkIsPositiveNumber(int a){
+        return a >= 0;
+    }
+
+    private static void printNumberSign(int a){
         System.out.printf(a < 0 ? "%d: negative %n" : "%d: positive %n", a);
     }
 
