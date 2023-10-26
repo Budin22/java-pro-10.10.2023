@@ -8,11 +8,21 @@ public class Main {
         printColor();
         compareNumbers();
         System.out.println("(5+9) in diapason from 10 to 20: " + checkSumInDiapason(5,9));
-
         printNumberSign(-1);
         System.out.println("5 is positive: " + checkIsPositiveNumber(5));
         printStringRepeatedly("Good job!!!", 5);
 
+        // Actually 100 year also should be the leap year
+        System.out.println("Is the leap year: " + isLeapYear(100));
+    }
+    private static boolean isLeapYear(int year){
+        if(year % 400 == 0){
+            return true;
+        }
+        if(year % 100 == 0){
+            return false;
+        }
+        return year % 4 == 0;
     }
 
     private static void printStringRepeatedly(String str, int repeat){
