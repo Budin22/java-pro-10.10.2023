@@ -1,4 +1,6 @@
-package org.example;
+package org.example.station;
+
+import org.example.list.ThreadSaveList;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -7,11 +9,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class PetrolStation {
+public class PetrolStation implements FuelStation {
     private double amount;
     private final Lock readLock;
     private final Lock writeLock;
-
     private final int MAX_THREADS = 3;
     private final Semaphore available = new Semaphore(MAX_THREADS);
     private final ThreadSaveList threadSaveList;
@@ -25,6 +26,7 @@ public class PetrolStation {
         this.threadSaveList = new ThreadSaveList();
     }
 
+    @Override
     public void doRefuel(double fuelAmount) {
         ExecutorService executor = Executors.newCachedThreadPool();
         executor.submit(() -> {
@@ -33,7 +35,7 @@ public class PetrolStation {
 
                 Thread.sleep(getRandomNum(3, 10) * 1000);
                 writeLock.lock();
-                if(getAmount() > fuelAmount){
+                if (getAmount() > fuelAmount) {
                     this.amount = getAmount() - fuelAmount;
                     threadSaveList.add(String.valueOf(fuelAmount));
                     System.out.println("fuel left: " + getAmount());
@@ -64,7 +66,7 @@ public class PetrolStation {
         }
     }
 
-    public ThreadSaveList getListOfRefuel(){
+    private ThreadSaveList getListOfRefuel() {
         return this.threadSaveList;
     }
 }
