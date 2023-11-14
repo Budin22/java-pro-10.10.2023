@@ -13,28 +13,26 @@ public class PetrolStation implements FuelStation {
     private double amount;
     private final Lock readLock;
     private final Lock writeLock;
-    private final int MAX_THREADS = 3;
-    private final Semaphore available = new Semaphore(MAX_THREADS);
+    private final Semaphore available;
     private final ThreadSaveList threadSaveList;
-
-
+    private final ExecutorService executor;
     public PetrolStation(double amount) {
         this.amount = amount;
         ReadWriteLock lock = new ReentrantReadWriteLock(true);
         this.readLock = lock.readLock();
         this.writeLock = lock.writeLock();
         this.threadSaveList = new ThreadSaveList();
+        this.executor = Executors.newCachedThreadPool();
+        this.available = new Semaphore(3);
     }
 
     @Override
     public void doRefuel(double fuelAmount) {
-        ExecutorService executor = Executors.newCachedThreadPool();
         executor.submit(() -> {
             try {
                 available.acquire();
-
-                Thread.sleep(getRandomNum(3, 10) * 1000);
                 writeLock.lock();
+                Thread.sleep(getRandomNum(3, 10) * 1000);
                 if (getAmount() > fuelAmount) {
                     this.amount = getAmount() - fuelAmount;
                     threadSaveList.add(String.valueOf(fuelAmount));
@@ -50,7 +48,6 @@ public class PetrolStation implements FuelStation {
                 available.release();
             }
         });
-        executor.shutdown();
     }
 
     private long getRandomNum(int min, int max) {
@@ -58,8 +55,8 @@ public class PetrolStation implements FuelStation {
     }
 
     private double getAmount() {
+        readLock.lock();
         try {
-            readLock.lock();
             return this.amount;
         } finally {
             readLock.unlock();
@@ -68,5 +65,10 @@ public class PetrolStation implements FuelStation {
 
     private ThreadSaveList getListOfRefuel() {
         return this.threadSaveList;
+    }
+
+    @Override
+    public void close() {
+        this.executor.shutdown();
     }
 }
