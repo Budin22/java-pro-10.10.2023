@@ -1,2 +1,4 @@
-package org.example.phonebook;public class PhoneBookService {
+package org.example.phonebook;
+
+public class PhoneBookService {
 }
