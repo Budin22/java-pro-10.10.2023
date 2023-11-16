@@ -2,7 +2,7 @@ package org.example;
 
 import org.example.calc.SomeCalc;
 import org.example.phonebook.Contact;
-import org.example.phonebook.PhoneBook;
+import org.example.phonebook.PhoneBookImp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class Main {
 
         System.out.println("\n------------------------next block--------------------\n");
 
-        PhoneBook phoneBook = new PhoneBook();
+        PhoneBookImp phoneBook = new PhoneBookImp();
         phoneBook.add(new Contact("sergii", "222"));
         phoneBook.add(new Contact("budin", "121231231"));
         phoneBook.add(new Contact("sergii", "111"));
