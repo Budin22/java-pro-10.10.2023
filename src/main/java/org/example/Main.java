@@ -5,23 +5,55 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        int pros = Runtime.getRuntime().availableProcessors();
-        System.out.println("Number of processors that JVM can use" + pros);
+//        int pros = Runtime.getRuntime().availableProcessors();
+//        System.out.println("Number of processors that JVM can use" + pros);
+//
+//        List<Image> images = new LinkedList<>();
 
-        try {
-            Document doc = Jsoup.connect("https://ru.wikipedia.org/wiki/%D0%90%D1%80%D1%81%D0%B5%D0%BD%D0%B0%D0%BB_(%D1%84%D1%83%D1%82%D0%B1%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%BA%D0%BB%D1%83%D0%B1,_%D0%9B%D0%BE%D0%BD%D0%B4%D0%BE%D0%BD)").get();
-            Elements elements = doc.select("img[alt]");
-            for (Element el: elements){
-                System.out.println(el.attr("src"));
-                System.out.println(el.attr("alt"));
-            }
+        try(ImageLoader imageLoader = new ImageLoader()) {
 
-        } catch (IOException e) {
+            String url = "https://en.wikipedia.org/wiki/Main_Page";
+            String directory = "C:\\Users\\Alena\\Desktop\\images\\";
+
+            imageLoader.load(url, directory);
+
+
+
+//            Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/Main_Page").get();
+//            Elements elements = doc.select("img[alt]");
+//            for (Element el : elements) {
+//                String src = "https:" + el.attr("src");
+//                String alt = el.attr("alt");
+//                if (src.trim().length() != 0 && alt.trim().length() != 0 && !src.contains("static")) {
+//                    Image image = new Image(src, alt);
+//                    images.add(image);
+//                }
+//            }
+//            System.out.println(images);
+//
+//            for (Image image : images) {
+//                URI url = new URI(image.getPath());
+//                String[] arr = image.getPath().split("/");
+//                String name = arr[arr.length - 1];
+//
+//                InputStream in = new BufferedInputStream(url.toURL().openStream());
+//                Path path = Path.of("C:\\Users\\Alena\\Desktop\\images\\" + name);
+//                Files.copy(in, path, StandardCopyOption.REPLACE_EXISTING);
+//            }
+
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
