@@ -1,18 +1,20 @@
-package org.example;
+package org.example.imageloader;
 
 import java.util.List;
 
-public class MyJson {
+public class LoadingResult {
     private String url;
+    private String dateTime;
     private int success;
     private int scanned;
     private List<Image> images;
 
-    public MyJson(String url, int success, int scanned, List<Image> images) {
+    public LoadingResult(String url, int success, int scanned, List<Image> images, String dateTime) {
         this.url = url;
         this.success = success;
         this.scanned = scanned;
         this.images = images;
+        this.dateTime = dateTime;
     }
 
     public String getUrl() {
@@ -47,13 +49,11 @@ public class MyJson {
         this.images = images;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                "url='" + url + '\'' +
-                ", success=" + success +
-                ", scanned=" + scanned +
-                ", images=" + images +
-                '}';
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 }

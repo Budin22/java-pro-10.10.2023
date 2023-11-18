@@ -1,8 +1,6 @@
 package org.example;
 
-import java.io.Serializable;
-
-public class Image implements Serializable {
+public class Image {
     private final String path;
     private final String label;
 
