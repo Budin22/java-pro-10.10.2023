@@ -1,4 +1,4 @@
-package org.example;
+package org.example.imageloader;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,11 +25,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class ImageLoader implements AutoCloseable {
-    private String url;
+public class ImageLoader implements Loader {
     private final List<Future<?>> futures;
     private final List<Image> images;
-
     private final ExecutorService executor;
 
     public ImageLoader() {
@@ -40,35 +37,49 @@ public class ImageLoader implements AutoCloseable {
         this.images = new LinkedList<>();
     }
 
+    @Override
     public void load(String url, String pathToDirectory) {
-        this.url = url;
-        List<Image> imagesInfo = getAllImages(url);
-        loadImagesToDirectory(imagesInfo, pathToDirectory, executor);
+        if (!new File(pathToDirectory).isDirectory()) {
+            System.out.printf("You must have correct directory path. Path: %s isn't a directory", pathToDirectory);
+            return;
+        }
 
+        List<Image> imagesInfo = getAllImagesFromPage(url);
+        if (imagesInfo.size() == 0) {
+            System.out.printf("Page with path: %s doesn't have any img tags", url);
+            return;
+        }
+
+        loadImagesToDirectory(imagesInfo, pathToDirectory);
         while (true) {
             if (futures.stream().allMatch(Future::isDone)) {
                 break;
             }
         }
-        createJsonFile();
+
+        LoadingResult loadingResult = new LoadingResult(url, images.size(), futures.size(), images, getDateTime());
+        createJsonFile("src/", "file.json", loadingResult);
     }
 
-    private void createJsonFile() {
+    private void createJsonFile(String path, String fileName, Object obj) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            mapper.writeValue(new File("src/file.json"), new MyJson(url, images.size(), futures.size(), images, dateFormat.format(new Date())));
-
+            File directory = new File(path + fileName);
+            mapper.writeValue(directory, obj);
         } catch (JsonProcessingException e) {
-            System.out.println("JsonProcessingException :" + e.getMessage());
+            System.out.println("JsonProcessingException: " + e.getMessage());
         } catch (IOException e) {
-            System.out.println("IOException :" + e.getMessage());
+            System.out.println("IOException with createJsonFile: " + e.getMessage());
         }
     }
 
-    private void loadImagesToDirectory(List<Image> imageList, String path, ExecutorService executor) {
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(new Date());
+    }
+
+    private void loadImagesToDirectory(List<Image> imageList, String path) {
         for (Image image : imageList) {
-            System.out.println(image.getPath());
             Future<?> future = executor.submit(() -> {
                 try {
                     URI url = new URI(image.getPath());
@@ -79,45 +90,36 @@ public class ImageLoader implements AutoCloseable {
                     Files.copy(in, pathWithName, StandardCopyOption.REPLACE_EXISTING);
                     images.add(image);
                 } catch (MalformedURLException e) {
-                    throw new RuntimeException(e);
+                    System.out.println("MalformedURLException: " + e.getMessage());
                 } catch (URISyntaxException e) {
-                    System.out.println("URISyntaxException :" + e.getMessage());
-                    throw new RuntimeException(e);
+                    System.out.println("URISyntaxException: " + e.getMessage());
                 } catch (IOException e) {
-                    System.out.println("IOException :" + e.getCause());
+                    System.out.println("IOException with loadImagesToDirectory: " + e.getCause());
                 }
             });
             futures.add(future);
         }
     }
 
-//    private boolean checkValidAttribute(String src, String alt) {
-//        return src.trim().length() != 0 && alt.trim().length() != 0 && !src.contains("static");
-//    }
-
     private String getFileNameFromImagePath(String path) {
         String[] arr = path.split("/");
         return arr[arr.length - 1];
     }
 
-    private List<Image> getAllImages(String url) {
-        List<Image> imagesInfo;
+    private List<Image> getAllImagesFromPage(String url) {
+        List<Image> allImages = new LinkedList<>();
         try {
             Document doc = Jsoup.connect(url).get();
             Elements elements = doc.select("img[alt]");
-            imagesInfo = new ArrayList<>();
             for (Element el : elements) {
                 String src = el.attr("src");
                 String alt = el.attr("alt");
-                imagesInfo.add(new Image(src, alt));
-//                if (checkValidAttribute(src, alt)) {
-//                    imagesInfo.add(new Image(src, alt));
-//                }
+                allImages.add(new Image(src, alt));
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("IOException with getAllImagesFromPage: " + e.getCause());
         }
-        return imagesInfo;
+        return allImages;
     }
 
     @Override

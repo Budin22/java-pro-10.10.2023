@@ -1,4 +1,4 @@
-package org.example;
+package org.example.imageloader;
 
 public class Image {
     private final String path;
@@ -11,10 +11,6 @@ public class Image {
 
     public String getPath() {
         return "https:" + path;
-    }
-
-    public String getLabel() {
-        return label;
     }
 
     @Override
