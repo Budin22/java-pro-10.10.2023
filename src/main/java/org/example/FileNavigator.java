@@ -7,25 +7,23 @@ import java.util.stream.Collectors;
 public class FileNavigator {
     private final Map<String, List<FileData>> files;
 
-    public FileNavigator(){
+    public FileNavigator() {
         this.files = new HashMap<>();
     }
 
-    public void run(String path) {
+    public void addFilesFromDirectory(String path) {
         File rootFile = new File(path);
-        if(rootFile.isDirectory()){
-            File[] files = rootFile.listFiles();
-            if(files == null) return;
-            for (File file : files){
-                add(file);
-            }
-        } else {
-            System.out.println(path + "is not a directory");
+        if (!checkIfFileIsDirectory(rootFile)) return;
+
+        File[] files = rootFile.listFiles();
+        if (files == null) return;
+        for (File file : files) {
+            addFile(file);
         }
     }
 
-    public void add(File file) {
-        if(file.isDirectory()) return;
+    public void addFile(File file) {
+        if (file.isDirectory()) return;
         String pathToDirectory = file.getParentFile().getAbsolutePath();
         List<FileData> existList = files.get(pathToDirectory);
         FileData data = new FileData(file.getName(), pathToDirectory, file.length());
@@ -38,9 +36,9 @@ public class FileNavigator {
         }
     }
 
-    public void add(String path) {
+    public void addFile(String path) {
         File file = new File(path);
-        if(file.isDirectory() || !file.exists()) return;
+        if (file.isDirectory() || !file.exists()) return;
         String pathToDirectory = file.getParentFile().getAbsolutePath();
         List<FileData> existList = files.get(pathToDirectory);
         FileData data = new FileData(file.getName(), pathToDirectory, file.length());
@@ -55,11 +53,7 @@ public class FileNavigator {
 
     public List<FileData> find(String path) {
         File file = new File(path);
-        if(!file.isDirectory()){
-            System.out.println(path + ": is not a directory");
-            return null;
-        }
-        return files.get(file.getAbsolutePath());
+        return checkIfFileIsDirectory(file) ? files.get(file.getAbsolutePath()) : null;
     }
 
     public List<FileData> filterBySize(int maxSize) {
@@ -70,7 +64,8 @@ public class FileNavigator {
     }
 
     public void remove(String path) {
-        files.remove(path);
+        File file = new File(path);
+        files.remove(file.getAbsolutePath());
     }
 
     public List<FileData> getAllFiles() {
@@ -84,5 +79,13 @@ public class FileNavigator {
                 .stream()
                 .sorted(Comparator.comparingLong(FileData::getBytes))
                 .collect(Collectors.toList());
+    }
+
+    private boolean checkIfFileIsDirectory(File file) {
+        if (!file.isDirectory()) {
+            System.out.println(file.getAbsolutePath() + ": is not a directory");
+            return false;
+        }
+        return true;
     }
 }
