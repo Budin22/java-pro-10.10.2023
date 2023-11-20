@@ -1,8 +1,9 @@
 package org.example;
 
+import org.example.navigator.FileNavigator;
+
 public class Main {
     public static void main(String[] args) {
-
         FileNavigator fileNavigator = new FileNavigator();
 
         fileNavigator.addFile("C:\\Users\\Alena\\Desktop\\Lesson\\java-pro-10.10.2023\\src\\main\\java\\org\\example\\FileData.java");
@@ -17,6 +18,5 @@ public class Main {
         fileNavigator.remove("src/main/java/org/example/");
         System.out.println("find by path: " + fileNavigator.find("src/main/java/org/example/"));
         System.out.println("find by path: " + fileNavigator.find("C:\\Users\\Alena\\Desktop\\Lesson\\java-pro-10.10.2023\\src\\main\\java\\org\\example\\"));
-
     }
 }

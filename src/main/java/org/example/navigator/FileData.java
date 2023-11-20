@@ -1,4 +1,4 @@
-package org.example;
+package org.example.navigator;
 
 import java.nio.file.Path;
 
