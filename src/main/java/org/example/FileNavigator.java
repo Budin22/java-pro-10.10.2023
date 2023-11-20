@@ -1,47 +1,88 @@
 package org.example;
 
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Path;
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class FileNavigator {
-    private Map<Path, List<FileData>> files;
+    private final Map<String, List<FileData>> files;
 
-    public void add(FileData file){
-        List<FileData> existList = files.get(file.getPath());
-        if(existList != null){
-            existList.add(file);
+    public FileNavigator(){
+        this.files = new HashMap<>();
+    }
+
+    public void run(String path) {
+        File rootFile = new File(path);
+        if(rootFile.isDirectory()){
+            File[] files = rootFile.listFiles();
+            if(files == null) return;
+            for (File file : files){
+                add(file);
+            }
         } else {
-            List<FileData> newList = new LinkedList<>();
-            newList.add(file);
-            files.put(file.getPath(), newList);
+            System.out.println(path + "is not a directory");
         }
     }
 
-    public List<FileData> find(Path path){
-        return files.get(path);
+    public void add(File file) {
+        if(file.isDirectory()) return;
+        String pathToDirectory = file.getParentFile().getAbsolutePath();
+        List<FileData> existList = files.get(pathToDirectory);
+        FileData data = new FileData(file.getName(), pathToDirectory, file.length());
+        if (existList != null) {
+            existList.add(data);
+        } else {
+            List<FileData> newList = new LinkedList<>();
+            newList.add(data);
+            files.put(pathToDirectory, newList);
+        }
     }
 
-    public List<FileData> filterBySize(int maxSize){
+    public void add(String path) {
+        File file = new File(path);
+        if(file.isDirectory() || !file.exists()) return;
+        String pathToDirectory = file.getParentFile().getAbsolutePath();
+        List<FileData> existList = files.get(pathToDirectory);
+        FileData data = new FileData(file.getName(), pathToDirectory, file.length());
+        if (existList != null) {
+            existList.add(data);
+        } else {
+            List<FileData> newList = new LinkedList<>();
+            newList.add(data);
+            files.put(pathToDirectory, newList);
+        }
+    }
+
+    public List<FileData> find(String path) {
+        File file = new File(path);
+        if(!file.isDirectory()){
+            System.out.println(path + ": is not a directory");
+            return null;
+        }
+        return files.get(file.getAbsolutePath());
+    }
+
+    public List<FileData> filterBySize(int maxSize) {
         return getAllFiles()
                 .stream()
-                .filter(item -> item.getBytes().length <= maxSize)
+                .filter(item -> item.getBytes() <= maxSize)
                 .collect(Collectors.toList());
     }
 
-    public void remove(Path path){
+    public void remove(String path) {
         files.remove(path);
     }
 
-    private List<FileData> getAllFiles(){
+    public List<FileData> getAllFiles() {
         List<FileData> allFiles = new LinkedList<>();
         files.forEach((path, fileList) -> allFiles.addAll(fileList));
         return allFiles;
     }
 
-    public List<FileData> sortBySize(){
-        return null;
+    public List<FileData> getSortedBySize() {
+        return getAllFiles()
+                .stream()
+                .sorted(Comparator.comparingLong(FileData::getBytes))
+                .collect(Collectors.toList());
     }
-
 }

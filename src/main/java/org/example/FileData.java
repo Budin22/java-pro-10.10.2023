@@ -4,10 +4,16 @@ import java.nio.file.Path;
 
 public class FileData {
     private String name;
-    private Path path;
-    private Byte[] bytes;
+    private String path;
+    private long bytes;
 
     public FileData() {
+    }
+
+    public FileData(String name, String path, long bytes) {
+        this.name = name;
+        this.path = path;
+        this.bytes = bytes;
     }
 
     public String getName() {
@@ -18,19 +24,28 @@ public class FileData {
         this.name = name;
     }
 
-    public Path getPath() {
+    public String getPath() {
         return path;
     }
 
-    public void setPath(Path path) {
+    public void setPath(String path) {
         this.path = path;
     }
 
-    public Byte[] getBytes() {
+    public long getBytes() {
         return bytes;
     }
 
-    public void setBytes(Byte[] bytes) {
+    public void setBytes(long bytes) {
         this.bytes = bytes;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name:'" + name + '\'' +
+                ", path:'" + path + '\'' +
+                ", bytes:" + bytes +
+                '}';
     }
 }
