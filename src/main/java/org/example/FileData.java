@@ -7,4 +7,30 @@ public class FileData {
     private Path path;
     private Byte[] bytes;
 
+    public FileData() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Path getPath() {
+        return path;
+    }
+
+    public void setPath(Path path) {
+        this.path = path;
+    }
+
+    public Byte[] getBytes() {
+        return bytes;
+    }
+
+    public void setBytes(Byte[] bytes) {
+        this.bytes = bytes;
+    }
 }
