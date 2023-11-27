@@ -1,2 +1,4 @@
-package org.example.coffe.order;public class Order {
+package org.example.coffe.order;
+
+public record Order(int number, String name) {
 }
