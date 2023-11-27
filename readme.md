@@ -1,6 +1,6 @@
 # Java pro course 10.10.2023
 
-### Map
+### Map and Set
 ### Task_14
 
 0. Створити новий пакет coffee.order
