@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.algorithm.CocktailSort;
 import org.example.algorithm.QuickSort;
+import org.example.algorithm.SortAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        CocktailSort cocktailSort = new CocktailSort();
-        QuickSort quickSort = new QuickSort();
+        SortAlgorithm cocktailSort = new CocktailSort();
+        SortAlgorithm quickSort = new QuickSort();
 
         Integer[] intArray = new Integer[]{6,5,1,-2};
 
