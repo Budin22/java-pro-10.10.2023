@@ -1,6 +1,6 @@
 package org.example;
 
-
+import org.example.algorithm.CocktailSort;
 import org.example.algorithm.QuickSort;
 
 import java.util.ArrayList;
@@ -8,21 +8,29 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+
+        CocktailSort cocktailSort = new CocktailSort();
         QuickSort quickSort = new QuickSort();
 
+        Integer[] intArray = new Integer[]{6,5,1,-2};
 
-        Integer[] arr = new Integer[]{-1, 5, -2,15,0};
+        List<Integer> intList = new ArrayList<>();
+        intList.add(10);
+        intList.add(2);
+        intList.add(-4);
+        intList.add(3);
 
-        List<Integer> list = new ArrayList<>();
-        list.add(10);
-        list.add(2);
-        list.add(-4);
-        list.add(3);
+        quickSort.sort(intArray);
+        quickSort.sort(intList);
 
-//        quickSort.selectSort(arr);
-        quickSort.cocktailSort(list);
+//        cocktailSort.sort(intArray);
+//        cocktailSort.sort(intList);
 
-        for (Integer s : list) {
+        for (Integer s : intArray) {
+            System.out.println(s);
+        }
+        System.out.println("----------------------------------");
+        for (Integer s : intList) {
             System.out.println(s);
         }
     }
