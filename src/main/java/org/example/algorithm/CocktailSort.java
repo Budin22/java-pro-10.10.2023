@@ -4,16 +4,18 @@ import java.util.List;
 
 public class CocktailSort implements SortAlgorithm {
     @Override
-    public <T extends Comparable> void sort(List<T> list) {
+    public <T extends Comparable<T>> void sort(@NotNull List<T> list) throws NullPointerException {
+        if (list == null) throw new NullPointerException();
         cocktailSort(list, 0, list.size() - 1);
     }
 
     @Override
-    public <T extends Comparable> void sort(T[] list) {
+    public <T extends Comparable<T>> void sort(@NotNull T[] list) throws NullPointerException {
+        if (list == null) throw new NullPointerException();
         cocktailSort(list, 0, list.length - 1);
     }
 
-    public <T extends Comparable> void cocktailSort(T[] list, int first, int last) {
+    public <T extends Comparable<T>> void cocktailSort(T[] list, int first, int last) {
         int i = 0;
         boolean isForward = true;
         int elInx = 0;
@@ -47,7 +49,7 @@ public class CocktailSort implements SortAlgorithm {
         }
     }
 
-    public <T extends Comparable> void cocktailSort(List<T> list, int first, int last) {
+    public <T extends Comparable<T>> void cocktailSort(List<T> list, int first, int last) {
         int i = 0;
         boolean isForward = true;
         int elInx = 0;

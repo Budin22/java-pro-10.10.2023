@@ -4,30 +4,32 @@ import java.util.List;
 
 public class QuickSort implements SortAlgorithm {
     @Override
-    public <T extends Comparable> void sort(List<T> list) {
+    public <T extends Comparable<T>> void sort(@NotNull List<T> list) throws NullPointerException {
+        if (list == null) throw new NullPointerException();
         quickSort(list, 0, list.size() - 1);
     }
 
     @Override
-    public <T extends Comparable> void sort(T[] list) {
+    public <T extends Comparable<T>> void sort(@NotNull T[] list) throws NullPointerException {
+        if (list == null) throw new NullPointerException();
         quickSort(list, 0, list.length - 1);
     }
 
-    private <T extends Comparable> void quickSort(T[] list, int first, int last) {
+    private <T extends Comparable<T>> void quickSort(T[] list, int first, int last) {
         if (first >= last) return;
         int pivotInx = findPivotInx(list, first, last);
         quickSort(list, first, pivotInx - 1);
         quickSort(list, pivotInx + 1, last);
     }
 
-    private <T extends Comparable> void quickSort(List<T> list, int first, int last) {
+    private <T extends Comparable<T>> void quickSort(List<T> list, int first, int last) {
         if (first >= last) return;
         int pivotInx = findPivotInx(list, first, last);
         quickSort(list, first, pivotInx - 1);
         quickSort(list, pivotInx + 1, last);
     }
 
-    private <T extends Comparable> int findPivotInx(T[] list, int first, int last) {
+    private <T extends Comparable<T>> int findPivotInx(T[] list, int first, int last) {
         int inx = first;
         T pivot = list[last];
         for (int i = first; i <= last; i++) {
@@ -39,7 +41,7 @@ public class QuickSort implements SortAlgorithm {
         return inx - 1;
     }
 
-    private <T extends Comparable> int findPivotInx(List<T> list, int first, int last) {
+    private <T extends Comparable<T>> int findPivotInx(List<T> list, int first, int last) {
         int inx = first;
         T pivot = list.get(last);
         for (int i = first; i <= last; i++) {
