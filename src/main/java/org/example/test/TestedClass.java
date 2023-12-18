@@ -4,7 +4,7 @@ import org.example.annotation.AfterSuite;
 import org.example.annotation.BeforeSuite;
 import org.example.annotation.Test;
 
-public class TestClass {
+public class TestedClass {
 
     @BeforeSuite
     public void before() {
