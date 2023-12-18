@@ -1,5 +1,24 @@
 # Java pro course 10.10.2023
 
+### TCL
+### Task_20
+1. Створити таблицю Homework. Ця таблиця складається з атрибутів: id, name, description
+- Для атрибуту ID має бути забезпечене обмеження Primary Key та AutoIncrement
+2. Створити таблицю Lesson. Ця таблиця складається з атрибутів: id, name, updatedAt, homework_id (зв'язок one-to-one)
+- Для атрибуту ID має бути забезпечене обмеження Primary Key та AutoIncrement
+- Пов'язано з таблицею Homework через Foreign Key
+3. Створити таблицю Schedule. Ця таблиця складається з атрибутів: id, name, updatedAt, lessons (зв'язок many-to-many)
+- Для атрибуту ID має бути забезпечене обмеження Primary Key і AutoIncrement
+- Зв'язано з таблицею Lesson через Foreign Key
+4. Перенести ініціалізаційні sql-скрипти у файл initsql
+5. sql-скрипт fetch.sql містить такі операції:
+- Отримання всіх записів Homework
+- Отримання всіх записів Lesson, включаючи дані Homework
+- Отримання всіх записів Lesson (включаючи дані Homework) відсортовані за часом оновлення
+- Отримання всіх записів Schedule, включаючи дані Lesson
+- Отримання кількості Lesson для кожного Schedule
+  ВАЖЛИВО ! Файл init.sql і fetch.sql є результатом завдання, що має бути додане як рішення
+
 ### DDL and DML
 ### Task_19
 1. Створити таблицю Homework. Ця таблиця складається з атрибутів: id, name, description
