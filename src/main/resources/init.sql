@@ -1,12 +1,12 @@
  CREATE TABLE homework (
  	id INT AUTO_INCREMENT NOT NULL,
- 	   name VARCHAR(256) NOT NULL,
- 	   description VARCHAR(256) NOT NULL,
-        PRIMARY KEY(id)
+ 	name VARCHAR(256) NOT NULL,
+ 	description VARCHAR(256) NOT NULL,
+    PRIMARY KEY(id)
  );
 
  CREATE TABLE lesson (
- 	id INT AUTO_INCREMENT NOT NULL,
+ 	 id INT AUTO_INCREMENT NOT NULL,
      name VARCHAR(256) NOT NULL,
      updateAt datetime NOT NULL,
      homework_id int NOT NULL,
@@ -15,14 +15,14 @@
  );
 
  CREATE TABLE t_schedule (
- 	id INT AUTO_INCREMENT NOT NULL,
+ 	 id INT AUTO_INCREMENT NOT NULL,
      name VARCHAR(256) NOT NULL,
      updateAt datetime NOT NULL,
      PRIMARY KEY(id)
  );
 
  CREATE TABLE schedule_lesson (
- 	id INT AUTO_INCREMENT NOT NULL,
+ 	 id INT AUTO_INCREMENT NOT NULL,
      schedule_id INT NOT NULL,
      lesson_id INT NOT NULL,
      PRIMARY KEY(id),
