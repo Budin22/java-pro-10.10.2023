@@ -5,27 +5,9 @@ public class Lesson {
     private String name;
     private Homework homework;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
+    public Lesson(Integer id, String name, Homework homework) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
-
-    public Homework getHomework() {
-        return homework;
-    }
-
-    public void setHomework(Homework homework) {
         this.homework = homework;
     }
 
