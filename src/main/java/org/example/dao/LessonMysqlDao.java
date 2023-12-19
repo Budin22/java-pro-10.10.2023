@@ -4,6 +4,7 @@ import org.example.entity.Homework;
 import org.example.entity.Lesson;
 import org.example.entity.dto.HomeworkDTO;
 import org.example.entity.dto.LessonDTO;
+import org.example.exception.LessonException;
 
 import java.io.Closeable;
 import java.sql.*;
@@ -18,102 +19,130 @@ public class LessonMysqlDao implements Closeable, CrudDao<Lesson, LessonDTO> {
     }
 
     @Override
-    public Lesson add(LessonDTO lessonDTO) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lesson (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setString(1, lessonDTO.getName());
-        int rowEffected = preparedStatement.executeUpdate();
-        Lesson lesson = null;
-        if (rowEffected > 0) {
-            ResultSet genKey = preparedStatement.getGeneratedKeys();
-            if (genKey.next()) {
-                int id = genKey.getInt(1);
-                lesson = new Lesson(id, lessonDTO.getName(), null);
+    public Lesson add(LessonDTO lessonDTO) {
+        try {
+            if (lessonDTO == null) throw new LessonException("lessonDTO should be not null");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lesson (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, lessonDTO.getName());
+            int rowEffected = preparedStatement.executeUpdate();
+            Lesson lesson = null;
+            if (rowEffected > 0) {
+                ResultSet genKey = preparedStatement.getGeneratedKeys();
+                if (genKey.next()) {
+                    int id = genKey.getInt(1);
+                    lesson = new Lesson(id, lessonDTO.getName(), null);
+                }
             }
+            return lesson;
+        } catch (SQLException e) {
+            throw new LessonException("Got SQLException in add with homework: " + e.getMessage());
         }
-        return lesson;
     }
 
-    public Lesson add(LessonDTO lessonDTO, HomeworkDTO homeworkDTO) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lesson (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setString(1, lessonDTO.getName());
-        int rowEffected = preparedStatement.executeUpdate();
-        Lesson lesson = null;
-        if (rowEffected > 0) {
-            ResultSet genKey = preparedStatement.getGeneratedKeys();
-            if (genKey.next()) {
-                int id = genKey.getInt(1);
-                homeworkDTO.setLessonId(id);
-                Homework homework = addHomework(homeworkDTO);
-                lesson = new Lesson(id, lessonDTO.getName(), homework);
+    public Lesson add(LessonDTO lessonDTO, HomeworkDTO homeworkDTO) {
+        try {
+            if (lessonDTO == null) throw new LessonException("lessonDTO should be not null");
+            if (homeworkDTO == null) throw new LessonException("homeworkDTO should be not null");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lesson (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, lessonDTO.getName());
+            int rowEffected = preparedStatement.executeUpdate();
+            Lesson lesson = null;
+            if (rowEffected > 0) {
+                ResultSet genKey = preparedStatement.getGeneratedKeys();
+                if (genKey.next()) {
+                    int id = genKey.getInt(1);
+                    homeworkDTO.setLessonId(id);
+                    Homework homework = addHomework(homeworkDTO);
+                    lesson = new Lesson(id, lessonDTO.getName(), homework);
+                }
             }
+            return lesson;
+        } catch (SQLException e) {
+            throw new LessonException("Got SQLException in add with homework: " + e.getMessage());
         }
-        return lesson;
     }
 
     @Override
-    public boolean deleteById(int id) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM lesson AS l WHERE l.id = ?");
-        preparedStatement.setInt(1, id);
-        int rowEffected = preparedStatement.executeUpdate();
-        return rowEffected > 0;
+    public boolean deleteById(int id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM lesson AS l WHERE l.id = ?");
+            preparedStatement.setInt(1, id);
+            int rowEffected = preparedStatement.executeUpdate();
+            return rowEffected > 0;
+        } catch (SQLException e) {
+            throw new LessonException("Got SQLException in deleteById: " + e.getMessage());
+        }
     }
 
     @Override
-    public List<Lesson> getAll() throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM lesson AS l JOIN homework AS h on l.id = h.lesson_id");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<Lesson> lessons = new LinkedList<>();
+    public List<Lesson> getAll() {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM lesson AS l JOIN homework AS h on l.id = h.lesson_id");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Lesson> lessons = new LinkedList<>();
 
-        while (resultSet.next()) {
-            int homeworkIdId = resultSet.getInt("h.id");
-            String homeworkName = resultSet.getString("h.name");
-            String homeworkDescription = resultSet.getString("h.description");
-            Homework homework = new Homework(homeworkIdId, homeworkName, homeworkDescription);
+            while (resultSet.next()) {
+                int homeworkIdId = resultSet.getInt("h.id");
+                String homeworkName = resultSet.getString("h.name");
+                String homeworkDescription = resultSet.getString("h.description");
+                Homework homework = new Homework(homeworkIdId, homeworkName, homeworkDescription);
 
-            int lessonId = resultSet.getInt("id");
-            String lessonName = resultSet.getString("name");
-            Lesson lesson = new Lesson(lessonId, lessonName, homework);
+                int lessonId = resultSet.getInt("id");
+                String lessonName = resultSet.getString("name");
+                Lesson lesson = new Lesson(lessonId, lessonName, homework);
 
-            lessons.add(lesson);
-        }
-        return lessons;
-    }
-
-    @Override
-    public Lesson getById(int id) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM lesson AS l JOIN homework AS h ON l.id = h.lesson_id WHERE l.id = ?");
-        preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        Lesson lesson = null;
-
-        if (resultSet.next()) {
-
-            int homeworkIdId = resultSet.getInt("h.id");
-            String homeworkName = resultSet.getString("h.name");
-            String homeworkDescription = resultSet.getString("h.description");
-            Homework homework = new Homework(homeworkIdId, homeworkName, homeworkDescription);
-
-            String name = resultSet.getString("name");
-            lesson = new Lesson(id, name, homework);
-        }
-        return lesson;
-    }
-
-    private Homework addHomework(HomeworkDTO homeworkDTO) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO homework (name, description, lesson_id) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setString(1, homeworkDTO.getName());
-        preparedStatement.setString(2, homeworkDTO.getDescription());
-        preparedStatement.setInt(3, homeworkDTO.getLessonId());
-        int rowEffected = preparedStatement.executeUpdate();
-        Homework homework = null;
-        if (rowEffected > 0) {
-            ResultSet genKey = preparedStatement.getGeneratedKeys();
-            if (genKey.next()) {
-                int id = genKey.getInt(1);
-                homework = new Homework(id, homeworkDTO.getName(), homeworkDTO.getDescription());
+                lessons.add(lesson);
             }
+            return lessons;
+        } catch (SQLException e) {
+            throw new LessonException("Got SQLException in getAll: " + e.getMessage());
         }
-        return homework;
+    }
+
+    @Override
+    public Lesson getById(int id) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM lesson AS l JOIN homework AS h ON l.id = h.lesson_id WHERE l.id = ?");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Lesson lesson = null;
+
+            if (resultSet.next()) {
+
+                int homeworkIdId = resultSet.getInt("h.id");
+                String homeworkName = resultSet.getString("h.name");
+                String homeworkDescription = resultSet.getString("h.description");
+                Homework homework = new Homework(homeworkIdId, homeworkName, homeworkDescription);
+
+                String name = resultSet.getString("name");
+                lesson = new Lesson(id, name, homework);
+            }
+            return lesson;
+        } catch (SQLException e) {
+            throw new LessonException("Got SQLException in getById: " + e.getMessage());
+        }
+    }
+
+    private Homework addHomework(HomeworkDTO homeworkDTO) {
+        try {
+            if (homeworkDTO == null) throw new LessonException("homeworkDTO should be not null");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO homework (name, description, lesson_id) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, homeworkDTO.getName());
+            preparedStatement.setString(2, homeworkDTO.getDescription());
+            preparedStatement.setInt(3, homeworkDTO.getLessonId());
+            int rowEffected = preparedStatement.executeUpdate();
+            Homework homework = null;
+            if (rowEffected > 0) {
+                ResultSet genKey = preparedStatement.getGeneratedKeys();
+                if (genKey.next()) {
+                    int id = genKey.getInt(1);
+                    homework = new Homework(id, homeworkDTO.getName(), homeworkDTO.getDescription());
+                }
+            }
+            return homework;
+        } catch (SQLException e) {
+            throw new LessonException("Got SQLException in addHomework: " + e.getMessage());
+        }
     }
 
     @Override

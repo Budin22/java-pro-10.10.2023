@@ -4,8 +4,7 @@ import org.example.dao.LessonMysqlDao;
 import org.example.db.DBConnection;
 import org.example.entity.dto.HomeworkDTO;
 import org.example.entity.dto.LessonDTO;
-
-import java.sql.SQLException;
+import org.example.exception.LessonException;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,8 +22,10 @@ public class Main {
             System.out.println("Get deleted lesson with id=1: " + lessonMysqlDAO.getById(1));
             System.out.println("lesson with homework: " + lessonMysqlDAO.add(lessonDTO, homeworkDTO));
             System.out.println("lesson without homework: " + lessonMysqlDAO.add(lessonDTO));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (LessonException e) {
+            System.out.println(e.getMessage());;
+        } catch (Exception e) {
+            throw new RuntimeException();
         }
     }
 }
