@@ -8,6 +8,7 @@ import org.example.exception.LessonException;
 
 import java.io.Closeable;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,20 +23,21 @@ public class LessonMysqlDao implements Closeable, CrudDao<Lesson, LessonDTO> {
     public Lesson add(LessonDTO lessonDTO) {
         try {
             if (lessonDTO == null) throw new LessonException("lessonDTO should be not null");
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lesson (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lesson (name, update_at) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, lessonDTO.getName());
+            preparedStatement.setString(2, lessonDTO.getUpdateAt().toString());
             int rowEffected = preparedStatement.executeUpdate();
             Lesson lesson = null;
             if (rowEffected > 0) {
                 ResultSet genKey = preparedStatement.getGeneratedKeys();
                 if (genKey.next()) {
                     int id = genKey.getInt(1);
-                    lesson = new Lesson(id, lessonDTO.getName(), null);
+                    lesson = new Lesson(id, lessonDTO.getName(), null, lessonDTO.getUpdateAt());
                 }
             }
             return lesson;
         } catch (SQLException e) {
-            throw new LessonException("Got SQLException in add with homework: " + e.getMessage());
+            throw new LessonException("Got SQLException in add without homework: " + e.getMessage());
         }
     }
 
@@ -43,8 +45,9 @@ public class LessonMysqlDao implements Closeable, CrudDao<Lesson, LessonDTO> {
         try {
             if (lessonDTO == null) throw new LessonException("lessonDTO should be not null");
             if (homeworkDTO == null) throw new LessonException("homeworkDTO should be not null");
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lesson (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO lesson (name, update_at) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, lessonDTO.getName());
+            preparedStatement.setString(2, lessonDTO.getUpdateAt().toString());
             int rowEffected = preparedStatement.executeUpdate();
             Lesson lesson = null;
             if (rowEffected > 0) {
@@ -53,7 +56,7 @@ public class LessonMysqlDao implements Closeable, CrudDao<Lesson, LessonDTO> {
                     int id = genKey.getInt(1);
                     homeworkDTO.setLessonId(id);
                     Homework homework = addHomework(homeworkDTO);
-                    lesson = new Lesson(id, lessonDTO.getName(), homework);
+                    lesson = new Lesson(id, lessonDTO.getName(), homework, lessonDTO.getUpdateAt());
                 }
             }
             return lesson;
@@ -89,7 +92,8 @@ public class LessonMysqlDao implements Closeable, CrudDao<Lesson, LessonDTO> {
 
                 int lessonId = resultSet.getInt("id");
                 String lessonName = resultSet.getString("name");
-                Lesson lesson = new Lesson(lessonId, lessonName, homework);
+                LocalDateTime updateAt = (LocalDateTime) resultSet.getObject("update_at");
+                Lesson lesson = new Lesson(lessonId, lessonName, homework, updateAt);
 
                 lessons.add(lesson);
             }
@@ -115,7 +119,8 @@ public class LessonMysqlDao implements Closeable, CrudDao<Lesson, LessonDTO> {
                 Homework homework = new Homework(homeworkIdId, homeworkName, homeworkDescription);
 
                 String name = resultSet.getString("name");
-                lesson = new Lesson(id, name, homework);
+                LocalDateTime updateAt = (LocalDateTime) resultSet.getObject("update_at");
+                lesson = new Lesson(id, name, homework, updateAt);
             }
             return lesson;
         } catch (SQLException e) {

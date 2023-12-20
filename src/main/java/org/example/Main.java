@@ -6,11 +6,13 @@ import org.example.entity.dto.HomeworkDTO;
 import org.example.entity.dto.LessonDTO;
 import org.example.exception.LessonException;
 
+import java.time.LocalDateTime;
 public class Main {
     public static void main(String[] args) {
         try(LessonMysqlDao lessonMysqlDAO = new LessonMysqlDao(DBConnection.getConnection())) {
             LessonDTO lessonDTO = new LessonDTO();
             lessonDTO.setName("Swimming");
+            lessonDTO.setUpdateAt(LocalDateTime.now());
 
             HomeworkDTO homeworkDTO = new HomeworkDTO();
             homeworkDTO.setName("swim");
@@ -20,12 +22,12 @@ public class Main {
             System.out.println("Get lesson with id=1: " + lessonMysqlDAO.getById(1));
             System.out.println("Delete lesson with id=1: " + lessonMysqlDAO.deleteById(1));
             System.out.println("Get deleted lesson with id=1: " + lessonMysqlDAO.getById(1));
-            System.out.println("lesson with homework: " + lessonMysqlDAO.add(lessonDTO, homeworkDTO));
-            System.out.println("lesson without homework: " + lessonMysqlDAO.add(lessonDTO));
+            System.out.println("add lesson with homework: " + lessonMysqlDAO.add(lessonDTO, homeworkDTO));
+            System.out.println("add lesson without homework: " + lessonMysqlDAO.add(lessonDTO));
         } catch (LessonException e) {
             System.out.println(e.getMessage());;
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }
