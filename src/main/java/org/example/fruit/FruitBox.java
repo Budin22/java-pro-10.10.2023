@@ -15,29 +15,31 @@ public class FruitBox<T extends Fruit> {
     }
 
     public void addFruit(@NotNull T fruit) throws NullPointerException {
-        if (fruit == null) throw new NullPointerException();
-        boxWight = getBoxWight() + fruit.getWight();
-        fruits.add(fruit);
-    }
-
-    public void merge(@NotNull FruitBox<T> fruitBox) throws NullPointerException {
-        if (fruitBox == null) throw new NullPointerException();
-        fruits.addAll(fruitBox.getFruits());
-        boxWight = getBoxWight() + fruitBox.getBoxWight();
-    }
-
-    public void addFruits(@NotNull Iterator<T> iteratorWithFruits) throws NullPointerException {
-        if (iteratorWithFruits == null) throw new NullPointerException();
-        while (iteratorWithFruits.hasNext()) {
-            T fruit = iteratorWithFruits.next();
-            fruits.add(fruit);
+        if (fruit != null) {
             boxWight = getBoxWight() + fruit.getWight();
+            fruits.add(fruit);
         }
     }
 
-    public boolean compare(@NotNull FruitBox<? extends Fruit> fruitBox) throws NullPointerException {
-        if (fruitBox == null) throw new NullPointerException();
-        return getBoxWight() == fruitBox.getBoxWight();
+    public void merge(@NotNull FruitBox<T> fruitBox) {
+        if (fruitBox != null) {
+            fruits.addAll(fruitBox.getFruits());
+            boxWight = getBoxWight() + fruitBox.getBoxWight();
+        }
+    }
+
+    public void addFruits(@NotNull Iterator<T> iteratorWithFruits) {
+        if (iteratorWithFruits != null) {
+            while (iteratorWithFruits.hasNext()) {
+                T fruit = iteratorWithFruits.next();
+                fruits.add(fruit);
+                boxWight = getBoxWight() + fruit.getWight();
+            }
+        }
+    }
+
+    public boolean compare(@NotNull FruitBox<? extends Fruit> fruitBox) {
+        return fruitBox != null && getBoxWight() == fruitBox.getBoxWight();
     }
 
     public List<T> getFruits() {
