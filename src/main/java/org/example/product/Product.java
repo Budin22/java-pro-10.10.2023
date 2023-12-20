@@ -15,10 +15,6 @@ public class Product {
         this.dateTime = dateTime;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public String getCategory() {
         return category;
     }
