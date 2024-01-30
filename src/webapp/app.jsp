@@ -37,7 +37,7 @@
                             for (Lesson lesson: lessons) {
                     %>
                     <li class="list-group-item">
-                        <a href=<%= "/lesson/" + lesson.getId() %>><%= lesson.getName() %></a>
+                        <a href=<%= "lesson/" + lesson.getId() %>><%= lesson.getName() %></a>
                     </li>
                     <%
                             } // end for

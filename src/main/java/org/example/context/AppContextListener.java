@@ -40,7 +40,7 @@ public class AppContextListener implements ServletContextListener {
                     .addMapping("/lesson/*");
 
             context.addServlet("HelloServlet", helloServlet)
-                    .addMapping("/hello/*");
+                    .addMapping("/hello");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -18,7 +18,7 @@
     %>
     <div class="container task-app">
         <div class="row">
-            <a href="/lessons">Back to all lessons</a>
+            <a href="/budin/lessons">Back to all lessons</a>
             <h1>Lesson: <%= lesson.getName() %></h1>
             <ul class="list-group">
                 <%
