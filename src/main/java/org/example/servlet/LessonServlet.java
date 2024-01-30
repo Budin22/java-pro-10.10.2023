@@ -21,7 +21,7 @@ public class LessonServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         List<Lesson> lessons = lessonService.getAllLessons();
         req.setAttribute("lessons", lessons);
-        req.getRequestDispatcher("/app.jsp").include(req, res);
+        req.getRequestDispatcher("app.jsp").include(req, res);
     }
 
     @Override
