@@ -1,4 +1,4 @@
-<%@ page import="ua.ithillel.jee.model.Task" %>
+<%@ page import="org.example.model.Lesson" %>
 <%@ page import="java.util.List" %>
 <!doctype html>
 <html lang="en">
@@ -9,20 +9,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-
     <title>ToDo app</title>
 </head>
 <body>
 
     <%
-        final List<Task> tasks = (List<Task>) request.getAttribute("tasks");
+        List<Lesson> lessons = (List<Lesson>) request.getAttribute("lessons");
     %>
 
     <div class="container task-app">
-        <form class="row" method="post" action="task">
+        <form class="row" method="post" action="lessons">
             <div class="col-5">
                 <div class="mb-3">
-                    <input type="text" class="form-control" id="todo" name="todo">
+                    <input type="text" class="form-control" placeholder="name" id="todo" name="name">
                 </div>
             </div>
             <div class="col-1">
@@ -34,16 +33,11 @@
             <form class="col-6" action="task" method="post">
                 <ul class="list-group">
                     <%
-                        if (tasks != null) {
-                            for (Task task: tasks) {
+                        if (lessons != null) {
+                            for (Lesson lesson: lessons) {
                     %>
                     <li class="list-group-item">
-                        <input type="checkbox"
-                               name="status"
-                               value="<%= task.isStatus() %>">
-                        <span>
-                            <%= task.getName() %>
-                        </span>
+                        <a href=<%= "/lesson/" + lesson.getId() %>><%= lesson.getName() %></a>
                     </li>
                     <%
                             } // end for

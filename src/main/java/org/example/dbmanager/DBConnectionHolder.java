@@ -39,7 +39,7 @@ public class DBConnectionHolder implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        if(!connection.isClosed()){
+        if (!connection.isClosed()) {
             connection.close();
         }
     }
