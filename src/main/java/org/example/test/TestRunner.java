@@ -1,5 +1,6 @@
 package org.example.test;
 
+import org.example.exception.IllegalTestAnnotationException;
 import org.example.annotation.AfterSuite;
 import org.example.annotation.BeforeSuite;
 import org.example.annotation.TestSuite;
@@ -17,7 +18,7 @@ public class TestRunner {
 
     public void run(Class<?> myClass, boolean withPriority) {
         try {
-            if (myClass == null) throw new NullPointerException("Class should be not null");
+            if (myClass == null) return;
             Method[] methods = myClass.getDeclaredMethods();
             List<MyTest> tests = getTestsFromMethods(methods);
 
@@ -27,22 +28,18 @@ public class TestRunner {
             Object myObj = myClass.getDeclaredConstructor().newInstance();
             invokeTests(myObj, tests);
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException |
-                 InstantiationException e) {
-            throw new RuntimeException(e);
+                 InstantiationException | IllegalTestAnnotationException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private void invokeTests(Object obj, List<MyTest> tests) {
-        try {
-            if (tests.isEmpty()) return;
-            if (beforeTests != null) beforeTests.invoke(obj);
-            for (MyTest test : tests) {
-                test.getMethod().invoke(obj);
-            }
-            if (afterTests != null) afterTests.invoke(obj);
-        } catch (InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+    private void invokeTests(Object obj, List<MyTest> tests) throws InvocationTargetException, IllegalAccessException {
+        if (tests.isEmpty()) return;
+        if (beforeTests != null) beforeTests.invoke(obj);
+        for (MyTest test : tests) {
+            test.getMethod().invoke(obj);
         }
+        if (afterTests != null) afterTests.invoke(obj);
     }
 
     private void sortTestsByPriority(List<MyTest> tests, Comparator<MyTest> comparator) {
@@ -51,13 +48,12 @@ public class TestRunner {
         }
     }
 
-    private List<MyTest> getTestsFromMethods(Method[] methods) {
+    private List<MyTest> getTestsFromMethods(Method[] methods) throws IllegalTestAnnotationException {
         List<MyTest> tests = new LinkedList<>();
         for (Method method : methods) {
             Annotation[] annotations = method.getDeclaredAnnotations();
             if (annotations.length > 1)
-                throw new IllegalArgumentException("Expect only 1 annotation but got " + annotations.length);
-
+                throw new IllegalTestAnnotationException("Expect only 1 annotation but got " + annotations.length + " in getTestsFromMethods method");
             if (method.isAnnotationPresent(TestSuite.class)) {
                 TestSuite testSuite = method.getAnnotation(TestSuite.class);
                 int priority = testSuite.priority();
@@ -72,15 +68,15 @@ public class TestRunner {
         return tests;
     }
 
-    private void setBeforeTests(Method method) {
+    private void setBeforeTests(Method method) throws IllegalTestAnnotationException {
         if (this.beforeTests != null)
-            throw new IllegalArgumentException("Expect only 1 before annotation but got more then 1");
+            throw new IllegalTestAnnotationException("Expect only 1 before annotation but got more then 1");
         this.beforeTests = method;
     }
 
-    private void setAfterTests(Method method) {
+    private void setAfterTests(Method method) throws IllegalTestAnnotationException {
         if (this.afterTests != null)
-            throw new IllegalArgumentException("Expect only 1 after annotation but got more then 1");
+            throw new IllegalTestAnnotationException("Expect only 1 after annotation but got more then 1");
         this.afterTests = method;
     }
 }
