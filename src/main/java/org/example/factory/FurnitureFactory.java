@@ -1,13 +1,11 @@
 package org.example.factory;
 
-import org.example.factory.furniture.Furniture;
+import org.example.factory.enums.ChairType;
+import org.example.factory.enums.TableType;
+import org.example.factory.furniture.chair.Chair;
+import org.example.factory.furniture.table.Table;
 
-public abstract class FurnitureFactory {
-    public  Furniture create(){
-        Furniture furniture = createFurniture();
-        furniture.make();
-        return furniture;
-    }
-
-    protected abstract Furniture createFurniture();
+public interface FurnitureFactory {
+    Chair createChair(ChairType type);
+    Table createTable(TableType type);
 }

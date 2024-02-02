@@ -1,6 +1,6 @@
 package org.example.strategy;
 
-public class Rectangle implements Strategy {
+public class Rectangle implements SquareStrategy {
     private final double height;
     private final double width;
 

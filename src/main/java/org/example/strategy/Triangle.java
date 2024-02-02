@@ -1,6 +1,6 @@
 package org.example.strategy;
 
-public class Triangle implements Strategy {
+public class Triangle implements SquareStrategy {
     private final double height;
     private final double width;
 

@@ -1,9 +1,12 @@
 package org.example;
 
 import org.example.builder.Car;
-import org.example.factory.ChairFactory;
+import org.example.factory.BudinFactory;
 import org.example.factory.FurnitureFactory;
-import org.example.factory.TableFactory;
+import org.example.factory.enums.ChairType;
+import org.example.factory.enums.TableType;
+import org.example.factory.furniture.chair.Chair;
+import org.example.factory.furniture.table.Table;
 import org.example.strategy.Rectangle;
 import org.example.strategy.StrategyUser;
 import org.example.strategy.Triangle;
@@ -16,13 +19,10 @@ public class Main {
         strategyUserTriangle.executeStrategy();
         strategyUserRectangle.executeStrategy();
 
-
-        FurnitureFactory chairFactory = new ChairFactory();
-        FurnitureFactory tableFactory = new TableFactory();
-        chairFactory.create();
-        tableFactory.create();
+        FurnitureFactory budinFactory = new BudinFactory();
+        Chair kitchenChair = budinFactory.createChair(ChairType.DINING_CHAIR);
+        Table kitchenTable = budinFactory.createTable(TableType.DINING_TABLE);
 
         Car car = new Car.Builder().setConditioner(true).setBulletProofGlass(false).setExtraInsurance(true).build();
-
     }
 }

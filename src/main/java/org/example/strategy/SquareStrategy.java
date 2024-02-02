@@ -1,5 +1,5 @@
 package org.example.strategy;
 
-public interface Strategy {
+public interface SquareStrategy {
     double getSquare();
 }
