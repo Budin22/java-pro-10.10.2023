@@ -81,36 +81,26 @@ public class LessonDaoImp implements LessonDao {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             Lesson lesson = null;
-
-            if (resultSet.next()) {
-                String name = resultSet.getString("name");
-                LocalDateTime updateAt = MyLocalDateTime.getLocalDateTimeFromString(resultSet.getString("update_at"));
-                lesson = new Lesson(id, name, getAllHomeworkByLessonId(id), updateAt);
-            }
-            return lesson;
-        } catch (SQLException e) {
-            throw new LessonException("Got SQLException in getById: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public List<Homework> getAllHomeworkByLessonId(Integer id) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM homework WHERE lesson_id = ?");
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
             List<Homework> homeworks = new LinkedList<>();
 
-            while (resultSet.next()) {
+            while (resultSet.next()){
+                if (lesson == null) {
+                    String name = resultSet.getString("name");
+                    LocalDateTime updateAt = MyLocalDateTime.getLocalDateTimeFromString(resultSet.getString("update_at"));
+                    lesson = new Lesson(id, name, null, updateAt);
+                }
+
                 String name = resultSet.getString("homework.name");
                 String description = resultSet.getString("homework.description");
                 Homework homework = new Homework(id, name, description);
                 homeworks.add(homework);
             }
-            return homeworks;
+
+            if(lesson != null) lesson.setHomework(homeworks);
+
+            return lesson;
         } catch (SQLException e) {
-            throw new LessonException("Got SQLException in getAllHomeworkByLessonId: " + e.getMessage());
+            throw new LessonException("Got SQLException in getById: " + e.getMessage());
         }
     }
 

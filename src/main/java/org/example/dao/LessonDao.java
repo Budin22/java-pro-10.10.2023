@@ -17,6 +17,4 @@ public interface LessonDao {
     Lesson getById(int id);
 
     Homework addHomeworkToLesson(HomeworkDTO homeworkDTO);
-
-    List<Homework> getAllHomeworkByLessonId(Integer id);
 }
