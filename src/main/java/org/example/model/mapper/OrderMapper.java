@@ -1,2 +1,14 @@
-package org.example.model.mapper;public interface OrderMapper {
+package org.example.model.mapper;
+
+import org.example.model.Order;
+import org.example.model.dto.OrderDto;
+import org.glassfish.jersey.spi.Contract;
+
+import java.util.List;
+
+@Contract
+public interface OrderMapper {
+    OrderDto orderToOrderDto(Order order);
+    Order orderDtoToOrder(OrderDto orderDto);
+    List<OrderDto> orderListToOrderDtoList(List<Order> orders);
 }
