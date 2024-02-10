@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="app">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern=" %highlight{%d{HH:mm:ss.SSS} [%level] %c [%t] - %msg%n}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=Cyan}"
+                    disableAnsi="false"/>
+        </Console>
+        <RollingFile name="File" fileName="C:\Users\38093\Desktop\course\java-pro-10.10.2023\logs\logs.log"
+                     filePattern="C:\Users\38093\Desktop\course\java-pro-10.10.2023\logs\$${date:yyyy-MM}/logs-%d{MM-dd-yyyy-HH-mm}-%i.log.gz">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss} %p %c {%t} - %m%n"/>
+            <SizeBasedTriggeringPolicy size="1000 B"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="DEBUG">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

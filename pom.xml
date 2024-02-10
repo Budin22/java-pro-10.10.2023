@@ -13,7 +13,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey.version>3.1.5</jersey.version>
-        <log4j.version>2.17.1</log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <war.mvn.plugin.version>3.4.0</war.mvn.plugin.version>
     </properties>
@@ -62,13 +61,8 @@
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
+            <version>2.22.1</version>
         </dependency>
     </dependencies>
     <build>
