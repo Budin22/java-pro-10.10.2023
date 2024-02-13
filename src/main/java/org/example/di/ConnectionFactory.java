@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 public class ConnectionFactory implements Factory<Connection> {
     private static final Logger logger = LogManager.getLogger(ConnectionFactory.class);
+
     @Override
     public Connection provide() {
         try {
@@ -21,12 +22,14 @@ public class ConnectionFactory implements Factory<Connection> {
 
             final Connection connection
                     = DriverManager.getConnection(url, user, password);
-            logger.debug("debug");
             logger.info("connection created");
+            logger.debug("Connection url: {}", url);
+            logger.debug("User: {}", user);
+            logger.debug("Password url: {}", password);
 
             return connection;
         } catch (SQLException | ClassNotFoundException e) {
-            logger.error(e.getMessage());
+            logger.error("Get problem with create connection. Error: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -35,7 +38,9 @@ public class ConnectionFactory implements Factory<Connection> {
     public void dispose(Connection connection) {
         try {
             connection.close();
+            logger.info("connection closed");
         } catch (SQLException e) {
+            logger.error("Get problem with close connection. Message: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }

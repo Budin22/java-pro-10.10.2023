@@ -1,6 +1,8 @@
 package org.example.repo;
 
 import jakarta.inject.Inject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.model.Order;
 import org.example.model.Product;
 import org.example.util.MyLocalDateTime;
@@ -15,6 +17,8 @@ import java.util.List;
 public class OrderRepoImp implements OrderRepo {
     @Inject
     private Connection connection;
+    private static final Logger logger = LogManager.getLogger(OrderRepoImp.class);
+
 
     @Override
     public Order getOrderById(int id) {
@@ -22,6 +26,8 @@ public class OrderRepoImp implements OrderRepo {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from t_order as r join t_order_product as op on op.order_id = r.id join t_product as p on p.id = op.product_id where r.id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+            logger.info("select * from t_order as r join t_order_product as op on op.order_id = r.id join t_product as p on p.id = op.product_id where r.id = ?");
+            logger.debug("where id: {}", id);
 
             Order order = null;
             List<Product> products = new LinkedList<>();
@@ -43,9 +49,10 @@ public class OrderRepoImp implements OrderRepo {
             }
 
             if (order != null) order.setProducts(products);
-
             return order;
         } catch (SQLException e) {
+            logger.error("SQLException in method getOrderById error message: {}", e.getMessage());
+            logger.error("SQLException in method getOrderById stack trace: {}", e.getStackTrace());
             throw new RuntimeException(e);
         }
     }
@@ -55,6 +62,7 @@ public class OrderRepoImp implements OrderRepo {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from t_order");
             ResultSet resultSet = preparedStatement.executeQuery();
+            logger.info("select * from t_order");
 
             List<Order> orders = new LinkedList<>();
             while (resultSet.next()) {
@@ -67,6 +75,8 @@ public class OrderRepoImp implements OrderRepo {
 
             return orders;
         } catch (SQLException e) {
+            logger.error("SQLException in method getAllOrders error message: {}", e.getMessage());
+            logger.error("SQLException in method getAllOrders stack trace: {}", e.getStackTrace());
             throw new RuntimeException(e);
         }
     }
@@ -76,6 +86,8 @@ public class OrderRepoImp implements OrderRepo {
         try {
             if (order == null) throw new RuntimeException("addOrder should be not null");
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO t_order (order_date, total_cost) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+            logger.info("INSERT INTO t_order (order_date, total_cost) VALUES (?, ?)");
+            logger.debug("where order: {}", order);
 
             preparedStatement.setObject(1, LocalDateTime.now());
             preparedStatement.setInt(2, order.getTotalCost());
@@ -101,9 +113,12 @@ public class OrderRepoImp implements OrderRepo {
                         throw new RuntimeException(e);
                     }
                 });
+                return getOrderById(order.getId());
             }
             return order;
         } catch (SQLException e) {
+            logger.error("SQLException in method addOrder error message: {}", e.getMessage());
+            logger.error("SQLException in method addOrder stack trace: {}", e.getStackTrace());
             throw new RuntimeException("Got SQLException in addOrder: " + e.getMessage());
         }
     }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.example.model.Order;
 import org.example.model.dto.OrderDto;
+import org.example.model.dto.OrderWithProductsDto;
 import org.example.model.mapper.OrderMapper;
 import org.example.repo.OrderRepo;
 import org.jvnet.hk2.annotations.Service;
@@ -21,8 +22,9 @@ public class OrderServiceImp implements OrderService {
     private OrderMapper mapper;
 
     @Override
-    public Order getOrderById(int id) {
-        return orderRepo.getOrderById(id);
+    public OrderWithProductsDto getOrderById(int id) {
+        Order order = orderRepo.getOrderById(id);
+        return mapper.orderToOrderWithProducts(order);
     }
 
     @Override
@@ -32,7 +34,8 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public Order addOrder(Order order) {
-        return orderRepo.addOrder(order);
+    public OrderWithProductsDto addOrder(Order order) {
+        Order addedOrder = orderRepo.addOrder(order);
+        return mapper.orderToOrderWithProducts(addedOrder);
     }
 }

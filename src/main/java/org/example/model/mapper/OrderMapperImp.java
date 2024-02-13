@@ -2,6 +2,7 @@ package org.example.model.mapper;
 
 import org.example.model.Order;
 import org.example.model.dto.OrderDto;
+import org.example.model.dto.OrderWithProductsDto;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,13 +21,14 @@ public class OrderMapperImp implements OrderMapper {
     }
 
     @Override
-    public Order orderDtoToOrder(OrderDto orderDto) {
-        if (orderDto != null) {
-            Order order = new Order();
-            order.setId(orderDto.getId());
-            order.setDate(orderDto.getDate());
-            order.setTotalCost(orderDto.getTotalCost());
-            return order;
+    public OrderWithProductsDto orderToOrderWithProducts(Order order) {
+        if (order != null) {
+            OrderWithProductsDto orderWithProductsDto = new OrderWithProductsDto();
+            orderWithProductsDto.setId(order.getId());
+            orderWithProductsDto.setDate(order.getDate());
+            orderWithProductsDto.setTotalCost(order.getTotalCost());
+            orderWithProductsDto.setProducts(order.getProducts());
+            return orderWithProductsDto;
         }
         return null;
     }

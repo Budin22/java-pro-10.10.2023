@@ -7,10 +7,10 @@
                     disableAnsi="false"/>
         </Console>
         <RollingFile name="File" fileName="C:\Users\38093\Desktop\course\java-pro-10.10.2023\logs\logs.log"
-                     filePattern="C:\Users\38093\Desktop\course\java-pro-10.10.2023\logs\$${date:yyyy-MM}/logs-%d{MM-dd-yyyy-HH-mm}-%i.log.gz">
+                     filePattern="C:\Users\38093\Desktop\course\java-pro-10.10.2023\logs\$${date:yyyy-MM}/logs-%d{MM-dd-yyyy-HH-mm-ss}-%i.log.gz">
             <PatternLayout
                     pattern="%d{yyyy-MM-dd HH:mm:ss} %p %c {%t} - %m%n"/>
-            <SizeBasedTriggeringPolicy size="1000 B"/>
+            <SizeBasedTriggeringPolicy size="30 mb"/>
         </RollingFile>
     </Appenders>
     <Loggers>
