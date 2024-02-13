@@ -40,6 +40,7 @@ public class OrderResource {
         logger.info("Make Get request getOrderById");
         logger.debug("Make Get request getOrderById with id: {}", id);
         OrderWithProductsDto order = orderService.getOrderById(id);
+        if(order == null) return Response.status(404, "Don't have order with id: " + id).build();
         return Response.ok(order).build();
     }
 

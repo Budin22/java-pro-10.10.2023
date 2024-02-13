@@ -23,13 +23,11 @@ public class ConnectionFactory implements Factory<Connection> {
             final Connection connection
                     = DriverManager.getConnection(url, user, password);
             logger.info("connection created");
-            logger.debug("Connection url: {}", url);
-            logger.debug("User: {}", user);
-            logger.debug("Password url: {}", password);
+            logger.debug("Connection url: {}, user: {}, password: {}, connection: {}", url, user, password, connection);
 
             return connection;
         } catch (SQLException | ClassNotFoundException e) {
-            logger.error("Get problem with create connection. Error: {}", e.getMessage());
+            logger.error("Get problem with create connection. Error: {}", e);
             throw new RuntimeException(e);
         }
     }

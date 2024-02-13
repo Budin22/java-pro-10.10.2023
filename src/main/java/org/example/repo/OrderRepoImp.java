@@ -49,10 +49,10 @@ public class OrderRepoImp implements OrderRepo {
             }
 
             if (order != null) order.setProducts(products);
+            logger.debug("find order: {}", order);
             return order;
         } catch (SQLException e) {
-            logger.error("SQLException in method getOrderById error message: {}", e.getMessage());
-            logger.error("SQLException in method getOrderById stack trace: {}", e.getStackTrace());
+            logger.error("SQLException in method getOrderById error : {}", e);
             throw new RuntimeException(e);
         }
     }
@@ -72,11 +72,10 @@ public class OrderRepoImp implements OrderRepo {
                 Order order = new Order(id, MyLocalDateTime.getLocalDateTimeFromString(orderDate), totalCost);
                 orders.add(order);
             }
-
+            logger.debug("find orders: {}", orders);
             return orders;
         } catch (SQLException e) {
-            logger.error("SQLException in method getAllOrders error message: {}", e.getMessage());
-            logger.error("SQLException in method getAllOrders stack trace: {}", e.getStackTrace());
+            logger.error("SQLException in method getAllOrders error : {}", e);
             throw new RuntimeException(e);
         }
     }
@@ -87,7 +86,7 @@ public class OrderRepoImp implements OrderRepo {
             if (order == null) throw new RuntimeException("addOrder should be not null");
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO t_order (order_date, total_cost) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             logger.info("INSERT INTO t_order (order_date, total_cost) VALUES (?, ?)");
-            logger.debug("where order: {}", order);
+            logger.debug("where order to add: {}", order);
 
             preparedStatement.setObject(1, LocalDateTime.now());
             preparedStatement.setInt(2, order.getTotalCost());
@@ -113,12 +112,14 @@ public class OrderRepoImp implements OrderRepo {
                         throw new RuntimeException(e);
                     }
                 });
-                return getOrderById(order.getId());
+
+                Order addedOrder = getOrderById(order.getId());
+                logger.debug("added order: {}", addedOrder);
+                return addedOrder;
             }
             return order;
         } catch (SQLException e) {
-            logger.error("SQLException in method addOrder error message: {}", e.getMessage());
-            logger.error("SQLException in method addOrder stack trace: {}", e.getStackTrace());
+            logger.error("SQLException in method addOrder error : {}", e);
             throw new RuntimeException("Got SQLException in addOrder: " + e.getMessage());
         }
     }
