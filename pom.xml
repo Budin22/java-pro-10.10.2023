@@ -11,7 +11,6 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey.version>3.1.5</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <war.mvn.plugin.version>3.4.0</war.mvn.plugin.version>
