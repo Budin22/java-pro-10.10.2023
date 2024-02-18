@@ -36,7 +36,8 @@ public class UserServiceImp implements UserService {
     @Override
     public UserWithTasksDto saveUser(UserWithTasksDto userWithTasksDto) {
         User user = userMapper.userWithTasksDtoToUser(userWithTasksDto);
-        return userMapper.userToUserWithTasksDto(user);
+        User addedUser = userRepo.saveUser(user);
+        return userMapper.userToUserWithTasksDto(addedUser);
     }
 
     @Override

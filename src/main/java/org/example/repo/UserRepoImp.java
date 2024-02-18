@@ -28,9 +28,8 @@ public class UserRepoImp implements UserRepo {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.persist(user);
+            session.merge(user);
             session.flush();
-
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -43,6 +42,7 @@ public class UserRepoImp implements UserRepo {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
+            session.clear();
             session.remove(user);
             session.flush();
 

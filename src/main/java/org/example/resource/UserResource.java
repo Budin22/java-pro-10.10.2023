@@ -52,4 +52,23 @@ public class UserResource {
         UserWithTasksDto addedUser = userService.saveUser(userWithTasksDto);
         return Response.ok(addedUser).build();
     }
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateUser(UserWithTasksDto userWithTasksDto) {
+        logger.info("Make Put request updateUser");
+        logger.debug("Make Put request updateUser with userWithTasksDto: {}", userWithTasksDto);
+        UserWithTasksDto updatedUser = userService.saveUser(userWithTasksDto);
+        return Response.ok(updatedUser).build();
+    }
+
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeUser(UserWithTasksDto userWithTasksDto) {
+        logger.info("Make Delete request removeUser");
+        logger.debug("Make Delete request removeUser with userWithTasksDto: {}", userWithTasksDto);
+        UserWithTasksDto removedUser = userService.removeUser(userWithTasksDto);
+        return Response.ok(removedUser).build();
+    }
 }
