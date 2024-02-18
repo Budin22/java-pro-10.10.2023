@@ -1,26 +1,26 @@
 package org.example.repo;
 
 import jakarta.inject.Inject;
-import lombok.AllArgsConstructor;
 import org.example.model.entity.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.jvnet.hk2.annotations.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
-class UserRepoImp implements UserRepo {
+@Service
+public class UserRepoImp implements UserRepo {
     @Inject
     private Session session;
 
     @Override
     public List<User> getAllUser() {
-        return session.createQuery("SELECT * FROM t_user", User.class).getResultList();
+        return session.createQuery("FROM t_user", User.class).list();
     }
 
     @Override
     public User getUserById(int id) {
-        return session.get(User.class, id);
+        return session.find(User.class, id);
     }
 
     @Override

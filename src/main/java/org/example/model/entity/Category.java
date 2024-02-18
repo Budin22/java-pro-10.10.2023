@@ -2,10 +2,11 @@ package org.example.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
-@Entity
+@Entity(name = "t_category")
 @Data
 @Table(name = "t_category")
 public class Category {

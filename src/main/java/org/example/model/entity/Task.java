@@ -2,12 +2,12 @@ package org.example.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.model.StatusType;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
+@Entity(name = "t_task")
 @Data
 @Table(name = "t_task")
 public class Task {
@@ -17,7 +17,7 @@ public class Task {
     private String name;
     private String description;
     @Column(name = "task_status")
-    private StatusType status;
+    private String status;
     @Column(name = "created_time")
     private LocalDateTime createdTime;
     @Column(name = "deadline")

@@ -17,7 +17,7 @@ CREATE TABLE t_task (
     created_time TIMESTAMP,
     deadline TIMESTAMP,
     category_id INT,
-    FOREIGN KEY (category_id) REFERENCES t_category(id);
+    FOREIGN KEY (category_id) REFERENCES t_category(id)
 );
 
 CREATE TABLE t_user_task (
