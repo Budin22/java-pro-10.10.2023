@@ -17,12 +17,17 @@ public class SessionFactory implements Factory<Session> {
     @Override
     public Session provide() {
         Configuration conf = new Configuration();
+        String msqlDriver = System.getenv("MYSQL_DRIVER");
+        String mysqlUrl = System.getenv("MYSQL_URL");
+        String mysqlUser = System.getenv("MYSQL_USER");
+        String mysqlPassword = System.getenv("MYSQL_PASSWORD");
+        String mysqlShowSql = System.getenv("MYSQL_SHOW_SQL");
 
-        conf.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
-        conf.setProperty("hibernate.connection.url", System.getenv("MYSQL_URL"));
-        conf.setProperty("hibernate.connection.username", System.getenv("MYSQL_USER"));
-        conf.setProperty("hibernate.connection.password", System.getenv("MYSQL_PASSWORD"));
-        conf.setProperty("hibernate.show_sql", System.getenv("MYSQL_SHOW_SQL"));
+        conf.setProperty("hibernate.connection.driver_class", msqlDriver);
+        conf.setProperty("hibernate.connection.url", mysqlUrl);
+        conf.setProperty("hibernate.connection.username", mysqlUser);
+        conf.setProperty("hibernate.connection.password", mysqlPassword);
+        conf.setProperty("hibernate.show_sql", mysqlShowSql);
 
         conf.addAnnotatedClass(Category.class);
         conf.addAnnotatedClass(Task.class);
@@ -36,6 +41,7 @@ public class SessionFactory implements Factory<Session> {
 
     @Override
     public void dispose(Session session) {
-
+        session.close();
+        logger.info("Session closed");
     }
 }
