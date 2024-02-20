@@ -39,7 +39,10 @@ public class UserResource {
         logger.info("Make Get request getUserById");
         logger.debug("Make Get request getUserById with id: {}", id);
         UserWithTasksDto user = userService.getUserById(id);
-        if (user == null) return Response.status(404, "Don't have user with id: " + id).build();
+        if (user == null) {
+            logger.error("Don't have user with id: {}", id);
+            return Response.status(404, "Don't have user with id: " + id).build();
+        }
         return Response.ok(user).build();
     }
 
@@ -52,6 +55,7 @@ public class UserResource {
         UserWithTasksDto addedUser = userService.saveUser(userWithTasksDto);
         return Response.ok(addedUser).build();
     }
+
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
