@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,6 +57,12 @@ public class UserRepoImpTest {
 
         assertNotNull(user);
         assertEquals(user.getId(), testId);
+    }
+
+    @Test
+    public void findAllTest_returnsNonNullUserList() {
+        List<User> user = userRepo.getAllUser();
+        assertNotNull(user);
     }
 
     @Test
