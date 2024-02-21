@@ -14,6 +14,6 @@ public class Category {
     private Integer id;
     private String name;
     private String description;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Task> tasks;
 }

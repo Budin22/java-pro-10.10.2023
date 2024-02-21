@@ -23,4 +23,7 @@ public class Task {
     private LocalDateTime deadline;
     @ManyToMany(mappedBy = "tasks")
     private List<User> users;
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private Category category;
 }

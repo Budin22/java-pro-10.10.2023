@@ -1,6 +1,8 @@
 package org.example.repo;
 
 import jakarta.inject.Inject;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.model.entity.User;
@@ -11,6 +13,8 @@ import org.jvnet.hk2.annotations.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRepoImp implements UserRepo {
     @Inject
     private Session session;
