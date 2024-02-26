@@ -27,7 +27,6 @@ public class UserRepoImpTest {
     private Session testSession;
     private SessionFactory testSessionFactory;
     private UserRepo userRepo;
-    private static final Logger logger = LogManager.getLogger(UserRepoImpTest.class);
 
     @BeforeEach
     public void setUp() {
