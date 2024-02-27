@@ -21,8 +21,8 @@ public class DefaultChatClient implements ChatClient {
 
         new Thread(() -> {
             try (socket) {
-                final InputStream inputStream = socket.getInputStream();
-                final OutputStream outputStream = socket.getOutputStream();
+                InputStream inputStream = socket.getInputStream();
+                OutputStream outputStream = socket.getOutputStream();
 
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 writer = new PrintWriter(new OutputStreamWriter(outputStream));

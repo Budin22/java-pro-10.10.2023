@@ -30,6 +30,7 @@ public class ChatServer implements Server, ChatHandler, AutoCloseable {
 
     @Override
     public void start() throws IOException {
+        System.out.println("server start");
         while (!serverSocket.isClosed()) {
             Socket socket = serverSocket.accept();
             new DefaultChatClient(socket, this);
