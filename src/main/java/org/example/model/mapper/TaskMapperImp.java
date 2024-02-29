@@ -4,10 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.model.dto.TaskDto;
 import org.example.model.entity.Task;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@Component
 public class TaskMapperImp implements TaskMapper {
     private static final Logger logger = LogManager.getLogger(TaskMapperImp.class);
     @Override

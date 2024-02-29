@@ -1,8 +1,6 @@
 package org.example.model.mapper;
 
-import jakarta.inject.Inject;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.model.dto.TaskDto;
@@ -10,15 +8,15 @@ import org.example.model.dto.UserDto;
 import org.example.model.dto.UserWithTasksDto;
 import org.example.model.entity.Task;
 import org.example.model.entity.User;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Component
+@RequiredArgsConstructor
 public class UserMapperImp implements UserMapper {
-    @Inject
-    private TaskMapper taskMapper;
+    private final TaskMapper taskMapper;
     private static final Logger logger = LogManager.getLogger(UserMapperImp.class);
 
     @Override

@@ -1,23 +1,19 @@
 package org.example.repo;
 
-import jakarta.inject.Inject;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.model.entity.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.jvnet.hk2.annotations.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Service
-@AllArgsConstructor
-@NoArgsConstructor
+@Repository
+@RequiredArgsConstructor
 public class UserRepoImp implements UserRepo {
-    @Inject
-    private Session session;
+    private final Session session;
     private static final Logger logger = LogManager.getLogger(UserRepoImp.class);
 
     @Override

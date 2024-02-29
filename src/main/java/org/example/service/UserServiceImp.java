@@ -1,25 +1,20 @@
 package org.example.service;
 
-import jakarta.inject.Inject;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.example.model.dto.UserDto;
 import org.example.model.dto.UserWithTasksDto;
 import org.example.model.entity.User;
 import org.example.model.mapper.UserMapper;
 import org.example.repo.UserRepo;
-import org.jvnet.hk2.annotations.Service;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserServiceImp implements UserService {
-    @Inject
-    private UserRepo userRepo;
-    @Inject
-    private UserMapper userMapper;
+    private final UserRepo userRepo;
+    private final UserMapper userMapper;
 
     @Override
     public List<UserDto> getAllUser() {
