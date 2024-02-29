@@ -34,6 +34,14 @@ public class ChatClient implements AutoCloseable {
                 writer.flush();
                 if (userMessage.equals("exit")) {
                     isOnChat[0] = false;
+                    if(socket.isClosed()) {
+                        try {
+                            socket.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+
                 }
             }
         }
