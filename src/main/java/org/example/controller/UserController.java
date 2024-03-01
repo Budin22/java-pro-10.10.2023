@@ -38,8 +38,8 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/")
-    public ResponseEntity<UserWithTasksDto> addUser(UserWithTasksDto userWithTasksDto) {
+    @PostMapping(value = {"", "/"})
+    public ResponseEntity<UserWithTasksDto> addUser(@RequestBody UserWithTasksDto userWithTasksDto) {
         logger.info("Make Post request addUser");
         logger.debug("Make Post request addUser with userWithTasksDto: {}", userWithTasksDto);
         UserWithTasksDto addedUser = userService.saveUser(userWithTasksDto);
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<UserWithTasksDto> updateUser(UserWithTasksDto userWithTasksDto) {
+    public ResponseEntity<UserWithTasksDto> updateUser(@RequestBody UserWithTasksDto userWithTasksDto) {
         logger.info("Make Put request updateUser");
         logger.debug("Make Put request updateUser with userWithTasksDto: {}", userWithTasksDto);
         UserWithTasksDto updatedUser = userService.saveUser(userWithTasksDto);
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @DeleteMapping("/")
-    public ResponseEntity<UserWithTasksDto> removeUser(UserWithTasksDto userWithTasksDto) {
+    public ResponseEntity<UserWithTasksDto> removeUser(@RequestBody UserWithTasksDto userWithTasksDto) {
         logger.info("Make Delete request removeUser");
         logger.debug("Make Delete request removeUser with userWithTasksDto: {}", userWithTasksDto);
         UserWithTasksDto removedUser = userService.removeUser(userWithTasksDto);

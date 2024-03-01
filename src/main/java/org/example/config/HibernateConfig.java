@@ -29,7 +29,7 @@ public class HibernateConfig {
     private String showSlq;
 
     @Bean
-    public Session session(){
+    public Session session() {
         Configuration config = new Configuration();
         Properties props = new Properties();
         props.put("hibernate.connection.driver_class", driverName);
