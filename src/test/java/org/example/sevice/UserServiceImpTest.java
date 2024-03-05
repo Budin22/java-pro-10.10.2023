@@ -28,6 +28,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {HibernateTestConfig.class})
 public class UserServiceImpTest {
@@ -53,7 +54,7 @@ public class UserServiceImpTest {
     }
 
     @Test
-    public void getAllUserTest_success() {
+    public void getAllUserTest_success()  {
         when(userRepoMock.getAllUser()).thenReturn(testUsers);
         List<UserDto> userDtoList = userService.getAllUser();
 
@@ -95,8 +96,7 @@ public class UserServiceImpTest {
 
     private void initTestUsers() {
         try (final InputStream inputStream = this.getClass().getClassLoader()
-                .getResourceAsStream("user-data.json");
-        ) {
+                .getResourceAsStream("user-data.json")) {
             testUsers = objectMapper.readValue(inputStream, new TypeReference<List<User>>() {
             });
         } catch (IOException e) {
