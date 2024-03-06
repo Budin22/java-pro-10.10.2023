@@ -79,4 +79,9 @@ public class DefaultChatClient implements ChatClient {
     public int hashCode() {
         return Objects.hash(socket, name);
     }
+
+    @Override
+    public Socket getSocket() {
+        return socket;
+    }
 }

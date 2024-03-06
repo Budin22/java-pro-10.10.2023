@@ -25,7 +25,7 @@ public class ChatServer implements Server, ChatHandler, AutoCloseable {
     public ChatServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
         senders = new HashMap<>();
-        senders.put("file", new FileSender());
+        senders.put("-file", new FileSender());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ChatServer implements Server, ChatHandler, AutoCloseable {
         Sender sender = senders.get(strategy);
         if (sender != null) {
             String currentMessage = message.substring(strategy.length() + 1);
-            sender.action(currentMessage);
+            sender.action(currentMessage, client.getSocket());
         } else {
             for (ChatClient conn :
                     chatClientList) {

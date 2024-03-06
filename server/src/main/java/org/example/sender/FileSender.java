@@ -1,50 +1,31 @@
 package org.example.sender;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.Socket;
+import java.util.Base64;
 
 public class FileSender implements Sender {
-    private String pathToFolder = "src/main/resources/";
+    private String pathToFolder = "C:\\Users\\38093\\Desktop\\course\\java-pro-10.10.2023\\server\\src\\main\\resources\\";
 
     @Override
-    public void action(String pathToFile) {
-        File readFile = new File(pathToFile);
-        String fileName = readFile.getName();
-        List<Integer> redFile = readFile(readFile);
-        writeFile(redFile, fileName);
-    }
+    public void action(String message, Socket socket) {
+        String[] parts = message.split(" ");
+        String fileName = parts[0];
+        String encodedContent = parts[1];
 
-    public void writeFile(List<Integer> fileData, String fileName) {
-        File file = new File(pathToFolder + fileName);
-        try (FileOutputStream writer = new FileOutputStream(file)) {
-            for (Integer integer : fileData) {
-                writer.write(integer);
-                writer.flush();
-            }
+        byte[] fileContent = Base64.getDecoder().decode(encodedContent);
+        String filePath = pathToFolder + fileName;
+        File newFile = new File(filePath);
+//        try {
+//            newFile.createNewFile();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        try(OutputStream writer = new FileOutputStream(newFile)){
+            writer.write(fileContent);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
-    }
-
-    public List<Integer> readFile(File file) {
-        List<Integer> fileData = new ArrayList<>();
-        try (FileInputStream reader = new FileInputStream(file)) {
-            int content;
-            while ((content = reader.read()) != -1) {
-                fileData.add(content);
-            }
-            return fileData;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public String getPathToFolder() {
-        return pathToFolder;
-    }
-
-    public void setPathToFolder(String pathToFolder) {
-        this.pathToFolder = pathToFolder;
     }
 }
