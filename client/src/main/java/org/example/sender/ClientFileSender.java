@@ -6,16 +6,24 @@ import java.nio.file.Files;
 import java.util.Base64;
 
 public class ClientFileSender implements Sender {
-    @Override
-    public void action(String pathToFile, Socket socket) throws IOException {
-        File readFile = new File(pathToFile);
-        String fileAsMessage = convertFileToString(readFile);
-        writeMessage(fileAsMessage, socket);
+    private final PrintWriter writer;
+
+    public ClientFileSender(PrintWriter writer) {
+        this.writer = writer;
     }
 
-    private void writeMessage(String message, Socket socket) throws IOException {
-        OutputStream outputStream = socket.getOutputStream();
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream));
+    @Override
+    public void action(String pathToFile, Socket socket) throws FileNotFoundException {
+        try {
+            File readFile = new File(pathToFile);
+            String fileAsMessage = convertFileToString(readFile);
+            writeMessage(fileAsMessage);
+        } catch (Exception e) {
+            throw new FileNotFoundException(e.getMessage());
+        }
+    }
+
+    private void writeMessage(String message) {
         writer.println(message);
         writer.flush();
     }

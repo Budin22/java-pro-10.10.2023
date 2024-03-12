@@ -11,12 +11,15 @@ import java.util.Scanner;
 
 public class ChatClient implements AutoCloseable {
     private final Socket socket;
+    private final PrintWriter writer;
     private final Map<String, Sender> senders;
 
     public ChatClient(String host, int port) throws IOException {
         this.socket = new Socket(host, port);
+        OutputStream outputStream = socket.getOutputStream();
+        writer = new PrintWriter(new OutputStreamWriter(outputStream));
         senders = new HashMap<>();
-        senders.put("-file", new ClientFileSender());
+        senders.put("-file", new ClientFileSender(writer));
     }
 
     public void connect() {
@@ -30,8 +33,7 @@ public class ChatClient implements AutoCloseable {
     }
 
     private void writeMessage(boolean[] isOnChat) throws IOException {
-        OutputStream outputStream = socket.getOutputStream();
-        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream));
+
         new Thread(() -> {
             while (isOnChat[0]) {
                 Scanner scanner = new Scanner(System.in);
@@ -69,7 +71,7 @@ public class ChatClient implements AutoCloseable {
     }
 
     private void readMessage(boolean[] isOnChat) throws IOException {
-        final InputStream inputStream = socket.getInputStream();
+        InputStream inputStream = socket.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
         while (isOnChat[0]) {

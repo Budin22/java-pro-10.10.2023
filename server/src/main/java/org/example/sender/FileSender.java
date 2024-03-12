@@ -16,11 +16,6 @@ public class FileSender implements Sender {
         byte[] fileContent = Base64.getDecoder().decode(encodedContent);
         String filePath = pathToFolder + fileName;
         File newFile = new File(filePath);
-//        try {
-//            newFile.createNewFile();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
 
         try(OutputStream writer = new FileOutputStream(newFile)){
             writer.write(fileContent);
