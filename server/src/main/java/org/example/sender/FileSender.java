@@ -1,15 +1,16 @@
 package org.example.sender;
 
 import java.io.*;
-import java.net.Socket;
 import java.util.Base64;
 
 public class FileSender implements Sender {
-    private String pathToFolder = "C:\\Users\\38093\\Desktop\\course\\java-pro-10.10.2023\\server\\src\\main\\resources\\";
+    private final String pathToFolder = System.getenv("PATH_TO_DIRECTORY");
 
     @Override
-    public void action(String message, Socket socket) {
+    public void action(String message) throws Exception {
         String[] parts = message.split(" ");
+        if(parts.length != 2) throw new IllegalArgumentException("not legal message");
+
         String fileName = parts[0];
         String encodedContent = parts[1];
 
@@ -20,7 +21,7 @@ public class FileSender implements Sender {
         try(OutputStream writer = new FileOutputStream(newFile)){
             writer.write(fileContent);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw new IOException(e.getMessage());
         }
     }
 }

@@ -45,16 +45,20 @@ public class ChatServer implements Server, ChatHandler, AutoCloseable {
 
     @Override
     public void onMessage(ChatClient client, String message) {
-        String strategy = message.split(" ")[0];
-        Sender sender = senders.get(strategy);
-        if (sender != null) {
-            String currentMessage = message.substring(strategy.length() + 1);
-            sender.action(currentMessage, client.getSocket());
-        } else {
-            for (ChatClient conn :
-                    chatClientList) {
-                conn.sendMessage("[" + client.getName() + "]: " + message);
+        try{
+            String strategy = message.split(" ")[0];
+            Sender sender = senders.get(strategy);
+            if (sender != null) {
+                String currentMessage = message.substring(strategy.length() + 1);
+                sender.action(currentMessage);
+            } else {
+                for (ChatClient conn :
+                        chatClientList) {
+                    conn.sendMessage("[" + client.getName() + "]: " + message);
+                }
             }
+        } catch (Exception e){
+            client.sendMessage("[SERVER]: error - " + e.getMessage());
         }
     }
 
