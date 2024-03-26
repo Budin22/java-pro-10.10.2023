@@ -1,9 +1,9 @@
-package org.example.model.dto;
+package org.goals.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.model.entity.Task;
+import org.goals.model.entity.Task;
 
 import java.util.List;
 

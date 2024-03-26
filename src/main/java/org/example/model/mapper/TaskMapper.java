@@ -1,7 +1,7 @@
-package org.example.model.mapper;
+package org.goals.model.mapper;
 
-import org.example.model.dto.TaskDto;
-import org.example.model.entity.Task;
+import org.goals.model.dto.TaskDto;
+import org.goals.model.entity.Task;
 
 import java.util.List;
 

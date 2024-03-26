@@ -1,12 +1,12 @@
-package org.example.config;
+package org.goals.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.model.entity.Category;
-import org.example.model.entity.Task;
-import org.example.model.entity.User;
-import org.example.model.mapper.TaskMapperImp;
-import org.example.model.mapper.UserMapper;
-import org.example.model.mapper.UserMapperImp;
+import org.goals.model.entity.Category;
+import org.goals.model.entity.Task;
+import org.goals.model.entity.User;
+import org.goals.model.mapper.TaskMapperImp;
+import org.goals.model.mapper.UserMapper;
+import org.goals.model.mapper.UserMapperImp;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

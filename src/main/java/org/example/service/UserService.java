@@ -1,7 +1,7 @@
-package org.example.service;
+package org.goals.service;
 
-import org.example.model.dto.UserDto;
-import org.example.model.dto.UserWithTasksDto;
+import org.goals.model.dto.UserDto;
+import org.goals.model.dto.UserWithTasksDto;
 
 import java.util.List;
 

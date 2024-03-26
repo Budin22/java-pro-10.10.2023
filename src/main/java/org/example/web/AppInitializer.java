@@ -1,4 +1,4 @@
-package org.example.web;
+package org.goals.web;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;

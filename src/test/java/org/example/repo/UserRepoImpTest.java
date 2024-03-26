@@ -1,9 +1,9 @@
-package org.example.repo;
+package org.goals.repo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import org.example.config.HibernateTestConfig;
-import org.example.model.entity.User;
+import org.goals.config.HibernateTestConfig;
+import org.goals.model.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterEach;

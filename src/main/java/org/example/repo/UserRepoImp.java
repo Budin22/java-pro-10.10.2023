@@ -1,9 +1,9 @@
-package org.example.repo;
+package org.goals.repo;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.model.entity.User;
+import org.goals.model.entity.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;

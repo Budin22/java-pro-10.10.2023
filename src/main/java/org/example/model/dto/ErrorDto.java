@@ -1,4 +1,4 @@
-package org.example.model.dto;
+package org.goals.model.dto;
 
 public class ErrorDto {
 }

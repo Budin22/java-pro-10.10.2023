@@ -1,11 +1,11 @@
-package org.example.service;
+package org.goals.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.model.dto.UserDto;
-import org.example.model.dto.UserWithTasksDto;
-import org.example.model.entity.User;
-import org.example.model.mapper.UserMapper;
-import org.example.repo.UserRepo;
+import org.goals.model.dto.UserDto;
+import org.goals.model.dto.UserWithTasksDto;
+import org.goals.model.entity.User;
+import org.goals.model.mapper.UserMapper;
+import org.goals.repo.UserRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

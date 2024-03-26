@@ -1,8 +1,8 @@
-package org.example.model.mapper;
+package org.goals.model.mapper;
 
-import org.example.model.dto.UserDto;
-import org.example.model.dto.UserWithTasksDto;
-import org.example.model.entity.User;
+import org.goals.model.dto.UserDto;
+import org.goals.model.dto.UserWithTasksDto;
+import org.goals.model.entity.User;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package org.example.repo;
+package org.goals.repo;
 
-import org.example.model.entity.User;
+import org.goals.model.entity.User;
 
 import java.util.List;
 

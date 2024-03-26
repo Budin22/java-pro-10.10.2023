@@ -1,8 +1,8 @@
-package org.example.config;
+package org.goals.config;
 
-import org.example.model.entity.Category;
-import org.example.model.entity.Task;
-import org.example.model.entity.User;
+import org.goals.model.entity.Category;
+import org.goals.model.entity.Task;
+import org.goals.model.entity.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
