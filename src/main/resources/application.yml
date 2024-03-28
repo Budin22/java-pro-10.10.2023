@@ -1,0 +1,28 @@
+#server:
+#  port: 8090
+#  servlet:
+#    context-path: /hillel-trip-planner-web/api
+#
+#spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: ${GOOGLE_CLIENT_ID}
+#            client-secret: ${GOOGLE_CLIENT_SECRET}
+#            authorization-grant-type: ${GOOGLE_AUTH_GRANT_TYPE}
+#            redirect-uri: ${GOOGLE_REDIRECT_URL:http://localhost:8090/hillel-trip-planner-web/api/auth/google/callback}
+#        provider:
+#          google:
+#            token-uri: ${GOOGLE_TOKEN_URL:https://oauth2.googleapis.com/token}
+#
+#
+#jwt:
+#  secret: ${JWT_SECRET}
+spring:
+  datasource:
+    password: 'Budin_Sergii_123'
+    url: jdbc:mysql://127.0.0.1:3306/newdb
+    username: root
+    drdriver-class-name: com.mysql.cj.jdbc.Driver
