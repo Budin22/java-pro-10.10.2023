@@ -25,4 +25,4 @@ spring:
     password: 'Budin_Sergii_123'
     url: jdbc:mysql://127.0.0.1:3306/newdb
     username: root
-    drdriver-class-name: com.mysql.cj.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
