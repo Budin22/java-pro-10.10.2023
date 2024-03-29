@@ -1,5 +1,6 @@
 package ua.goals.security.filter;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,30 +13,33 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ua.goals.security.service.GoalsUserDetailsService;
+import ua.goals.security.util.JwtUtil;
 
 import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class GoalsFilter extends OncePerRequestFilter {
     private final GoalsUserDetailsService userDetailsService;
+    private final JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String tokenUserName = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (tokenUserName != null) {
-            try{
-                UserDetails userDetails = userDetailsService.loadUserByUsername(tokenUserName);
+        if (authHeader != null) {
+            String jwtToken = authHeader.substring(7);
+            Claims claims = jwtUtil.getClaims(jwtToken);
+            String username = claims.getSubject();
 
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken auth
+                        = new UsernamePasswordAuthenticationToken(userDetails,
+                        null,
+                        userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
-
-            } catch (Exception e){
-                log.error("Error: {}", e.getMessage());
-                response.sendError(401, e.getMessage());
             }
         }
-
         filterChain.doFilter(request, response);
     }
 }

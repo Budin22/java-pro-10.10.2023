@@ -16,7 +16,7 @@ public class GoalsUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = userJpaRepo.findUserByName(username);
-        if (user == null) throw new UsernameNotFoundException("Don't user with name " + username);
+        if (user == null) throw new UsernameNotFoundException("Don't have user with name " + username);
         return new GoalsUserDetails(user);
     }
 }

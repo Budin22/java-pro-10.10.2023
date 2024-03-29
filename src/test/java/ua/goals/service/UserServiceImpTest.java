@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ua.goals.config.TestConfig;
@@ -20,13 +21,14 @@ import ua.goals.repo.UserJpaRepo;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
 @ContextConfiguration(classes = {TestConfig.class})
 public class UserServiceImpTest {
     @Mock
@@ -77,6 +79,12 @@ public class UserServiceImpTest {
 
         assertNotNull(userWithTasksDto);
         assertEquals(userWithTasksDto.getId(), testId);
+    }
+
+    @Test
+    public void findTest_returnsNoSuchElementException() {
+        Integer testId = 25;
+        when(userJpaRepo.findById(testId)).thenThrow(new NoSuchElementException());
     }
 
     @Test

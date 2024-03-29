@@ -12,5 +12,6 @@ import java.util.List;
 public class UserWithTasksDto {
     private Integer id;
     private String name;
+    private String password;
     private List<TaskDto> tasks;
 }

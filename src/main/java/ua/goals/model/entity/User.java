@@ -14,6 +14,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private String password;
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(name = "t_user_task",
             joinColumns = {@JoinColumn(name = "user_id")},
