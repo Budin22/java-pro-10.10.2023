@@ -16,25 +16,29 @@ import java.util.Arrays;
 @Component
 public class LoggingAspect {
     @Pointcut("execution(* ua.goals.service..*.*(..))")
-    private void serviceMethod(){}
+    private void serviceMethod() {
+    }
+
     @Pointcut("execution(* ua.goals.repo..*.*(..))")
-    private void repoMethod(){}
+    private void repoMethod() {
+    }
+
     @Pointcut("execution(* ua.goals.controller..*.*(..))")
-    private void controllerMethod(){}
+    private void controllerMethod() {
+    }
 
     @Around(value = "serviceMethod() || repoMethod() || controllerMethod()")
-    public  Object logAroundMethod(ProceedingJoinPoint pjp) throws Throwable {
+    public Object logAroundMethod(ProceedingJoinPoint pjp) throws Throwable {
         Signature signature = pjp.getSignature();
         log.debug("Calling: {} with args: {}", signature, Arrays.toString(pjp.getArgs()));
 
         Object res = pjp.proceed();
         log.debug("Method: {} returned: {}", pjp.getSignature(), res);
-
         return res;
     }
 
     @AfterThrowing(value = "serviceMethod() || repoMethod() || controllerMethod()", throwing = "e")
-    public void logMethodAfterThrown(Exception e){
+    public void logMethodAfterThrown(Exception e) {
         log.error("Exception in service method: {}", e.getMessage());
     }
 }
