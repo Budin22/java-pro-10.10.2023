@@ -1,11 +1,10 @@
-# Java pro course 10.10.2023
+## This is my project where I used Java and Spring Boot
 
-### My goal for this course
-
-- to have a strong foundation knowledge in Java
-- to have a gaudiness from an experience developer
-- to see more troubleshoot handling
-- to be in a group of people who want to grow and develop
-- to have a mentor at this course
-- to have interesting and challenging home tasks
-- improve my skills in resolving different ensue
+### What was implemented
+1. Spring Boot app.
+2. CRUD controller for users and change logging level.
+3. Controller adviser for exception handling.
+4. Aspects for logging.
+5. Spring Boot Security for simple auth.
+6. JPA for work with database.
+7. Spring Boot testing.
